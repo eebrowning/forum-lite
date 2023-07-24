@@ -6,7 +6,7 @@ const CommentSchema = Schema({
     //association will be similar to this:
     user: {//google api stuff might change this stuff.
         type: Schema.Types.ObjectId,//this will change
-        ref: 'users'
+        ref: 'users' //not sure how this will go with google api for users
     },
     name: {
         type: String,

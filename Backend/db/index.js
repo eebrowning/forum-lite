@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 
 // const [MONGO_URI] = require('../config/keys.js');
-const MONGO_URI = 'TODO'
+const MONGO_URI = env.MONGO_URI;
 
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true })
@@ -13,12 +13,6 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true })
         console.error('Connection error', e.message)
     })
 
-
-// mongoose.connect('mongodb://127.0.0.1:8000/profiles', { useNewUrlParser: true })
-//     .then(() => console.log("MongoDB Connected!"))
-//     .catch(e => {
-//         console.error('Connection error', e.message)
-//     })
 
 const db = mongoose.connection
 
