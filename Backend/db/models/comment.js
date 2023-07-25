@@ -5,21 +5,12 @@ const Schema = mongoose.Schema;
 const CommentSchema = Schema({
     //association will be similar to this:
     user: {//google api stuff might change this stuff.
-        type: Schema.Types.ObjectId,//this will change
+        type: Number,//this will change
         ref: 'users' //not sure how this will go with google api for users
-    },
-    name: {
-        type: String,
-        minLength: 4,
-        required: true,
     },
     text: {
         type: String,
         minLength: 10,
-        required: true,
-    },
-    avatar: {
-        type: String,
         required: true,
     },
     isLiked: {
@@ -28,6 +19,10 @@ const CommentSchema = Schema({
     },
     numLikes: {
         type: Number,
+        required: false
+    },
+    topic: {
+        type: String,
         required: false
     }
 }, { timestamps: true });
