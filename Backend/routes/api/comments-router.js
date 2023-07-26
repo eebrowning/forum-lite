@@ -1,3 +1,4 @@
+
 const express = require('express')
 const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
@@ -20,6 +21,6 @@ router.delete('/:id', CommentCtrl.deleteCommentById)
 
 // router.put('/:id', CommentCtrl.createComment)//edit can be done later
 
-// router.get('/:id', CommentCtrl.getCommentById)
+
 
 module.exports = router
