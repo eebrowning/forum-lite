@@ -1,0 +1,131 @@
+<div id='forum-block'>
+    <html>
+
+    <head>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <meta name="google-signin-client_id"
+            content="557284935003-4tkdhgn1kdqogabge31pr1a38iblqn4j.apps.googleusercontent.com">
+
+        <style>
+            /* Example styles */
+            .forum-container {
+                border: 1px solid red;
+                position: relative;
+                order: 2;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+            }
+
+            .forum-container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            .forum-header {
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .forum-post {
+                margin-bottom: 10px;
+                padding: 10px;
+                border: 1px solid #ddd;
+            }
+
+            .forum-post-author {
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .forum-post-content {
+                margin-bottom: 10px;
+            }
+
+            .forum-post-date {
+                font-style: italic;
+                font-size: 12px;
+                color: #777;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+        <div class="forum-container">
+            <h1 class="forum-header">Forum</h1>
+
+            <!-- Start of forum posts -->
+            <div id='posts'>
+                <div class="forum-post">
+                    <div class="forum-post-author">User123</div>
+                    <div class="forum-post-content">This is just an embed test. I'm not sure how we will be storing the
+                        comments</div>
+                    <div class="forum-post-date">Posted on July 17, 2023</div>
+                </div>
+
+                <div class="forum-post">
+                    <div class="forum-post-author">User456</div>
+                    <div class="forum-post-content">These are dummy comments.</div>
+                    <div class="forum-post-date">Posted on July 18, 2023</div>
+                </div>
+                <!-- End of forum posts -->
+            </div>
+            <!-- Add a form to allow users to submit new posts -->
+            <form id="forum-form">
+                <label for="author">Name:</label>
+                <input type="text" id="author" name="author" required><br>
+
+                <label for="content">Post:</label><br>
+                <textarea id="content" name="content" required></textarea><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <script>
+            function onSignIn(googleUser) {
+                var profile = googleUser.getBasicProfile();
+                console.log('ID: ' + profile.getId());
+                console.log('Name: ' + profile.getName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail());
+
+            }
+        </script>
+
+        <script>
+            // Handle form submission to add new posts
+            document.getElementById("forum-form").addEventListener("submit", function (e) {
+                e.preventDefault(); // Prevent form submission
+
+                // Get input values
+                var author = document.getElementById("author").value;
+                var content = document.getElementById("content").value;
+
+                // Create new post HTML
+                var newPost = document.createElement("div");
+                newPost.className = "forum-post";
+                newPost.innerHTML = `
+            <div class="forum-post-author">${author}</div>
+            <div class="forum-post-content">${content}</div>
+            <div class="forum-post-date">Posted on ${new Date().toLocaleDateString()}</div>
+          `;
+
+                // Append the new post to the forum container
+                var forumPosts = document.querySelector("#posts");
+                forumPosts.appendChild(newPost);
+
+                // Clear form inputs
+                document.getElementById("author").value = "";
+                document.getElementById("content").value = "";
+            });
+        </script>
+    </body>
+
+    </html>
+</div>
