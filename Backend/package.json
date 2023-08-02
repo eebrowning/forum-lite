@@ -1,0 +1,14 @@
+{
+  "name": "forum-api",
+  "version": "1.0.0",
+  "description": "light forum api for Philly Outreach",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

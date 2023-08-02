@@ -24,8 +24,15 @@ passport.use(new GoogleStrategy({
     scope: ['profile', 'email'],
 },
     (accessToken, refreshToken, profile, done) => {
-        console.log('done', profile)
-        console.log('TOKEN', accessToken)
+        // console.log('XXXXXXXXXXXXXXXXXXX')
+        // console.log('XXXXXXXXXXXXXXXXXXX')
+        // console.log('done', profile)
+
+        console.log('XXXXXXXXXXXXXXXXXXX')
+        console.log('XXXXXXXXXXXXXXXXXXX')
+        console.log('NAME', profile.name.givenName, profile.name.familyName)
+        console.log('Google ID', profile.id)
+
         return done(null, profile);
     }
 ));
