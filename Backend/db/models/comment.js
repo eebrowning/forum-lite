@@ -6,7 +6,8 @@ const CommentSchema = Schema({
     //association will be similar to this:
     user: {//google api stuff might change this stuff.
         type: Number,//this will change, will be Google ID (ex: 101518615856371771990)
-        ref: 'users' //not sure how this will go with google api for users
+        required: true,
+        // ref: 'users' //not sure how this will go with google api for users, probably not necessary
     },
     text: {
         type: String,
