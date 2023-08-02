@@ -129,3 +129,31 @@
 
     </html>
 </div>
+
+
+
+
+
+<script>
+    //this script fetches user info from google, given a google ID.
+    function fetchUserInfo(googleId) {
+        // Make an API request to the Google API to fetch user information
+        console.log('trying...'); fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+            method: 'GET',
+            headers: {//token may need to be updated 
+                Authorization: 'Bearer ' + "ya29.a0AbVbY6N_27GyAJFTP5lryO4tIpF-alUgDa_zNztNHxbs_A_qp4cQMR1pfFetzWk1h_Xu0t-a-6DkvtAQ7wjEtTcGXNx_Kp749lhlG8eKkVBp50px-2tm1xWZVud_E0nqpuFw_S1noFh0oztgRJfVvMTzkUTT6AaCgYKAQkSARMSFQFWKvPlcpvwG8HyRxhiH24nHBClLw0165",
+            },
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        }).then(data => {
+            // Data contains user information fetched from Google API
+            console.log('User Info:', data);
+        }).catch(error => {
+            console.error('Error fetching user info:', error);
+        });
+    }
+    fetchUserInfo(101518615856371771990)
+</script>

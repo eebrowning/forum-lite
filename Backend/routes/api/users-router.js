@@ -32,6 +32,8 @@ passport.use(new GoogleStrategy({
         console.log('XXXXXXXXXXXXXXXXXXX')
         console.log('NAME', profile.name.givenName, profile.name.familyName)
         console.log('Google ID', profile.id)
+        console.log('TOKEN', accessToken)
+
 
         return done(null, profile);
     }
