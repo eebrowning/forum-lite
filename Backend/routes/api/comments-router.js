@@ -17,8 +17,6 @@ router.post('/', CommentCtrl.createComment)//
 router.get('/', CommentCtrl.getComments)
 router.delete('/:id', CommentCtrl.deleteCommentById)
 
-
-
 // router.put('/:id', CommentCtrl.createComment)//edit can be done later
 
 

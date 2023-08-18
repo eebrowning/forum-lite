@@ -33,6 +33,19 @@ const PostSchema = Schema({
     }
 }, { timestamps: true });
 
-const Post = mongoose.model("Post", PostSchema);
+const Post = mongoose.model("Posts", PostSchema);
 
 module.exports = Post;
+
+
+
+
+//test object for POSTMAN:
+const testPost = {
+    "user": 1,
+    "title": "Test Title",
+    "body": "This is a post about posts and stuff",
+    "isLiked": true,
+    "numLikes": 0,
+    "topic": "test"
+}
