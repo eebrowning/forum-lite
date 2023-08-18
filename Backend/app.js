@@ -13,6 +13,13 @@ const cors = require('cors')
 
 const commentRouter = require("./routes/api/comments-router");
 const usersRouter = require("./routes/api/users-router")
+const postRouter = require("./routes/api/posts-router")
+const db = require('./db');
+
+
+
+
+
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -24,68 +31,21 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.use(bodyParser.json())
+db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+
 
 //base test route
 app.get('/', (req, res) => {//test connection
     res.send('Hello, backend successfully connected!');
 });
-//Auth Route
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//auth stuff - Google sign-in
-// app.use(session({
-//     secret: SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: true,
-// }))
-// app.use(passport.initialize());
-// app.use(passport.session());
-// passport.use(new GoogleStrategy({
-//     clientID: CLIENT_ID,
-//     clientSecret: CLIENT_SECRET,
-//     callbackURL: '/auth/google/callback',
-//     scope: ['profile', 'email'],
-// },
-//     (accessToken, refreshToken, profile, done) => {
-//         console.log('done', profile)
-//         console.log('TOKEN', accessToken)
-//         return done(null, profile);
-//     }
-// ));
-// app.get('/auth/google',
-//     passport.authenticate('google', { scope: ['profile', 'email'] })
-// );
 
-// app.get('/auth/google/callback',
-//     passport.authenticate('google', { failureRedirect: '/login' }),
-//     (req, res) => {
-//         // Successful authentication, redirect to the desired route or perform other actions.
-//         res.redirect('/');
-//     }
-// );
-// // app.get('/user',
-// //     passport.authenticate('google', { scope: ['profile', 'email'] }),
-// //     (req, res) => {
-// //         console.log('profile')
-// //     }
-
-// // );
-
-// passport.serializeUser((user, done) => {
-//     // Serialize the user data and store it in the session.
-//     done(null, user);
-// });
-
-// passport.deserializeUser((user, done) => {
-//     // Retrieve the user data from the session.
-//     done(null, user);
-// });
-// ////end auth stuff
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.use('/auth/', usersRouter)
-
 
 //Comments Route
 app.use('/api/comments', commentRouter)
+//Posts
+app.use('/api/posts', postRouter)
+
 
 
 

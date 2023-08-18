@@ -34,7 +34,6 @@ passport.use(new GoogleStrategy({
         console.log('Google ID', profile.id)
         console.log('TOKEN', accessToken)
 
-
         return done(null, profile);
     }
 ));

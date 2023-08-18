@@ -1,9 +1,9 @@
 //CRUD stuff will go here
 
-const Comment = require('../../db/models/comment');
-//users should be able to make a comment
+const Post = require('../../db/models/post');
+//users should be able to make a post
 //users should be able to have discussions 
-createComment = (req, res) => {//create
+createPost = (req, res) => {//create
     const body = req.body;
     console.log('XXXXXXXX')
     console.log('test: this is the req body', req.body)
@@ -19,23 +19,23 @@ createComment = (req, res) => {//create
     if (!body) {
         return res.status(400).json({
             "success": false,
-            "errors": "Please write a comment"
+            "errors": "Please write a post"
         })
     }
-    let comment = new Comment(body);
+    let post = new Post(body);
 
-    if (!comment) {
+    if (!post) {
         return res.status(400).json({ success: false, error: err })
     }
 
-    comment
+    post
         .save()
         .then(() => {
             return res.status(201).json({
                 success: true,
-                id: comment._id,
-                data: comment,
-                message: 'Comment created!',
+                id: post._id,
+                data: post,
+                message: 'Post created!',
             })
 
         })
@@ -43,14 +43,13 @@ createComment = (req, res) => {//create
 }
 
 
-getComments = async (req, res) => {//read all comments
-    console.log('getting... ')
-    let comments = await Comment.find({})
+getPosts = async (req, res) => {//read all posts
+    let posts = await Post.find({})
     try {
         res.status(200).json({
             success: true,
             data: {
-                comments
+                posts
             }
         })
     } catch (err) {
@@ -62,15 +61,15 @@ getComments = async (req, res) => {//read all comments
 
 }
 
-getCommentById = () => {//read comment by an id 
+// getpostById = () => {//read post by an id 
 
-}
+// }
 
 
 
-deleteCommentById = async (req, res) => {//delete
+deletePostById = async (req, res) => {//delete
 
-    let deleted = await Comment.findOneAndDelete({ _id: req.params.id })
+    let deleted = await Post.findOneAndDelete({ _id: req.params.id })
 
     try {
         res.status(200).json({
@@ -87,12 +86,12 @@ deleteCommentById = async (req, res) => {//delete
 
 }
 
-editCommentbyId = () => {//update
-}
+// editpostbyId = () => {//update
+// }
 
 module.exports = {
-    createComment,
-    getCommentById,
-    getComments,
-    deleteCommentById
+    createPost,
+    // getPostById,
+    getPosts,
+    deletePostById
 }
