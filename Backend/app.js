@@ -1,11 +1,6 @@
 //Note, Auth stuff crammed here, could clean up on it's own route, but there isn't much to it.
 const express = require('express');
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const session = require('express-session');
 require('dotenv').config();
-const { SESSION_SECRET, CLIENT_SECRET, CLIENT_ID } = process.env;
-/////
 const app = express();
 const port = 3000; //
 const bodyParser = require('body-parser');
@@ -17,19 +12,14 @@ const postRouter = require("./routes/api/posts-router")
 const db = require('./db');
 
 
-
-
-
-
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Host');
     next();
 });
-
-app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
@@ -45,8 +35,6 @@ app.use('/auth/', usersRouter)
 app.use('/api/comments', commentRouter)
 //Posts
 app.use('/api/posts', postRouter)
-
-
 
 
 app.listen(port, () => {
