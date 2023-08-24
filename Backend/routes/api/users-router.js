@@ -14,13 +14,18 @@ const validateUser = [//pass as middleware with the correct fields
         .exists({ checkFalsy: true })
         .isLength({ min: 4 })
         .withMessage('Please provide a username(min 4 characters).'),
+    check('username')
+        .matches(/^[a-zA-Z0-9]+$/)//alphanumeric only
+        .withMessage('Username cannot have spaces or special characters'),
     check('firstname')
         .exists({ checkFalsy: true })
         .isLength({ min: 2 })
+        .matches(/^[a-zA-Z]+$/)//just alpha
         .withMessage('Please provide a firstname(min 2 characters).'),
     check('lastname')
         .exists({ checkFalsy: true })
         .isLength({ min: 2 })
+        .matches(/^[a-zA-Z]+$/)//just alpha
         .withMessage('Please provide a firstname(min 2 characters).'),
     check('email')
         .exists({ checkFalsy: true })
