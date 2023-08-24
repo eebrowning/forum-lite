@@ -14,6 +14,14 @@ const validateUser = [//pass as middleware with the correct fields
         .exists({ checkFalsy: true })
         .isLength({ min: 4 })
         .withMessage('Please provide a username(min 4 characters).'),
+    check('firstname')
+        .exists({ checkFalsy: true })
+        .isLength({ min: 2 })
+        .withMessage('Please provide a firstname(min 2 characters).'),
+    check('lastname')
+        .exists({ checkFalsy: true })
+        .isLength({ min: 2 })
+        .withMessage('Please provide a firstname(min 2 characters).'),
     check('email')
         .exists({ checkFalsy: true })
         .isEmail()
@@ -51,7 +59,7 @@ router.post('/register', validateUser, UserCtrl.createUser)
 router.get('/:id', UserCtrl.getUser);
 router.get('/', UserCtrl.getAllUsers);
 router.put('/:id', UserCtrl.updateUser)
-router.delete("/:id", UserCtrl.deleteUserById)
+router.delete("/delete/:id", UserCtrl.deleteUserById)
 
 router.get(
     '/',

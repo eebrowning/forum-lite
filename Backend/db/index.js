@@ -1,8 +1,8 @@
 // const express = require('express');
 // const { Router } = require('express');
 const mongoose = require("mongoose");
-require('dotenv').config();
-const MONGO_URI = process.env.MONGO_URI;
+const [MONGO_URI] = require('../config/keys');
+
 // console.log(MONGO_URI, 'mongouri')
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true })

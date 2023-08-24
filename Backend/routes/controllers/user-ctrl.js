@@ -1,6 +1,6 @@
 const User = require('../../db/models/user');
 const bcrypt = require('bcryptjs');
-// const [SECRET] = require('../../.env');
+const [SECRET] = require('../../config/keys');
 
 const jwt = require('jsonwebtoken');
 const { setTokenCookie } = require('../../utils/auth')
@@ -80,6 +80,8 @@ createUser = (req, res) => {
                 // Otherwise create a new user
                 const newUser = new User({
                     username: req.body.username,
+                    firstname: req.body.firstname,
+                    lastname: req.body.lastname,
                     email: req.body.email,
                     password: req.body.password
                 })

@@ -10,7 +10,7 @@ const UserSchema = Schema({
         minLength: 3,
         required: true,
     },
-    password: {//will be hashed or handled with oAuth 
+    password: {//will be hashed or handled with oAuth, will test to prove before deploying
         type: String,
         minLength: 2,
         required: true,
@@ -19,12 +19,12 @@ const UserSchema = Schema({
         type: String,
         required: true,
     },
-    firstName: {
+    firstname: {
         type: String,
         minLength: 2,
         required: true,
     },
-    lastName: {
+    lastname: {
         type: String,
         minLength: 2,
         required: true,
