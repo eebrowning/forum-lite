@@ -5,9 +5,9 @@ const Comment = require('../../db/models/comment');
 //users should be able to have discussions 
 createComment = (req, res) => {//create
     const body = req.body;
-    console.log('XXXXXXXX')
-    console.log('test: this is the req body', req.body)
-    console.log('XXXXXXXX')
+    // console.log('XXXXXXXX')
+    // console.log('test: this is the req body', req.body)
+    // console.log('XXXXXXXX')
 
 
     if (req.errors) {

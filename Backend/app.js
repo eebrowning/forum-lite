@@ -7,7 +7,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 
 const commentRouter = require("./routes/api/comments-router");
-const usersRouter = require("./routes/api/users-router")
+const usersRouter = require("./routes/api/users-router");
+const googleRouter = require("./routes/api/google-router");
+
 const postRouter = require("./routes/api/posts-router")
 const db = require('./db');
 
@@ -29,7 +31,8 @@ app.get('/', (req, res) => {//test connection
     res.send('Hello, backend successfully connected!');
 });
 
-app.use('/auth/', usersRouter)
+app.use('/auth/passport', usersRouter)
+app.use('/auth/google', googleRouter)
 
 //Comments Route
 app.use('/api/comments', commentRouter)
