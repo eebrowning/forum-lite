@@ -11,6 +11,19 @@
 - **PUT /auth/passport/:id** will pass data and UPDATE a specific user associated with :id
 - **DELETE /auth/passport/delete/:id** will delete a specific user associated with :id (extra /delete endpoint mainly to avoid easy mistakes at the moment while testing in POSTMAN)
 
+
+
+*Ex. Sample User Login payload JSON:*
+```
+
+{
+    "username": "wendys",
+    "password": "clever_password"
+}
+
+
+```
+
 *Ex. Positive Login JSON:*
 ```
 {
