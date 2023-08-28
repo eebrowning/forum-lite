@@ -28,13 +28,28 @@
 ```
 
 
+*Ex. Sample User Registration payload JSON:*
+```
+
+{
+    "username": "wendys",
+    "firstname": "wendy",
+    "lastname": "testerburger",
+    "email": "sirthisis@wendys.com",
+    "password": "clever_password"
+}
+
+
+```
+
+
 *Ex. Positive User Registration response JSON:*
 ```
 {
     "success": true,
     "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWNkM2I5NTQwODMxMWZlNjE4ZWI1NyIsImlhdCI6MTY5MzI0MjI5NywiZXhwIjoxNjkzMjQ1ODk3fQ.pZPNbtz_2iHYg3vwsewfzbQIULincTnyd8vVHNoKm8c",
     "user": {
-        "username": "wendy",
+        "username": "wendys",
         "password": "$2a$10$XOLZpfarJ0XNPUMWLMd/2OvZadsrft0xBxwd3AW6MHTxMW83.TYD7YC",
         "email": "sirthisis@wendys.com",
         "firstname": "wendy",
