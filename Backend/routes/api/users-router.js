@@ -38,10 +38,10 @@ const validateUser = [//pass as middleware with the correct fields
     handleValidationErrors
 ];
 const validateLogin = [//pass as middleware with the correct fields
-    check('email')
+    check('username')
         .exists({ checkFalsy: true })
-        .isEmail()
-        .withMessage('Please provide a valid email.'),
+        .isLength({ min: 1 })
+        .withMessage('Please provide a Username.'),
     check('password')
         .exists({ checkFalsy: true })
         .isLength({ min: 6 })

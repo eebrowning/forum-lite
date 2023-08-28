@@ -1,78 +1,138 @@
-<!-- HTML for the forum
-    this is all a little loose and might not work, but will look something like this
+<!-- A more robust test of api: ensuring consistency for error reporting -->
 
--->
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum Page</title>
+</head>
 
 <body>
+    <div id="posts"></div>
 
+    <div id="loginForm">
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginButton">Log In</button>
+        <ul id="loginErrors">
 
-    <div id="forum">
-        <!-- Display posts here -->
-        <div id="posts"></div>
-
-        <!-- Form to submit new posts -->
-        <form id="postForm">
-            <input type="text" id="postTitle" placeholder="Title">
-            <textarea id="postContent" placeholder="Write your post"></textarea>
-            <button type="submit">Submit Post</button>
-        </form>
-
+        </ul>
     </div>
 
-</body>
+    <div id="postForm" style="display: none;">
+        <textarea id="postContent" placeholder="Write your post"></textarea>
+        <button id="postButton">Post</button>
+    </div>
+
+    <div id="commentForm" style="display: none;">
+        <textarea id="commentContent" placeholder="Write your comment"></textarea>
+        <button id="commentButton">Comment</button>
+    </div>
+
+    <script>
+        const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL
+        let token = ""; // Store the token received after successful login
+
+        const postsContainer = document.getElementById("posts");
+        const loginForm = document.getElementById("loginForm");
+        const postForm = document.getElementById("postForm");
+        const commentForm = document.getElementById("commentForm");
+
+        const loginButton = document.getElementById("loginButton");
+        const postButton = document.getElementById("postButton");
+        const commentButton = document.getElementById("commentButton");
+
+        const loginErrors = document.getElementById("loginErrors");
 
 
-<!-- JavaScript to fetch data and handle interactions -->
-<script>
-    // Function to fetch and display posts
-    async function fetchPosts() {
-        const response = await fetch('http://localhost:3000/api/posts')
-            .then(response => response.json())
-            .then(res => {
-                console.log(res.data.posts, 'posts')
-                let posts = res.data.posts
-                // Get the UL element to populate with data
-                const postList = document.getElementById('posts');
+        // Function to fetch posts and display them
+        async function fetchAndDisplayPosts() {
+            const response = await fetch(`${baseUrl}/api/posts`);
+            const posts = await response.json();
 
-                // Loop through the fetched posts and update the DOM
-                posts.forEach(post => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = post.title;
-                    postList.appendChild(listItem);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });;
-        const data = await response.json();
+            postsContainer.innerHTML = "";
 
-        console.log(data)
-        // Add logic to display posts in the #posts div
-    }
+            posts.forEach(post => {
+                const postElement = document.createElement("div");
+                postElement.innerHTML = `<h3>${post.title}</h3><p>${post.content}</p>`;
+                postsContainer.appendChild(postElement);
+            });
+        }
 
-    // Function to submit a new post
-    async function submitPost(title, content) {
-        const response = await fetch('http://localhost:3000/api/posts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ title, content }),
+        // Event listeners
+        loginButton.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch(`${baseUrl}/auth/passport/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username, password })
+            });
+            let body = response.body;
+
+            let rezzy = await response.json()
+            console.log(rezzy)
+
+            if (!rezzy.error) {
+                // const data = await response.json();
+                token = rezzy.token;
+                loginForm.style.display = "none";
+                postForm.style.display = "block";
+                commentForm.style.display = "block";
+                fetchAndDisplayPosts();
+            } else {
+                // let error = document.createElement("li");
+                loginErrors.innerHTML = `${rezzy.error}`;
+                // loginErrors.append(error);
+            }
+            //  else {
+            //     alert("Login failed. Please check your credentials.");
+            // }
         });
 
-        // Handle the response and update the UI accordingly
-    }
+        postButton.addEventListener("click", async (e) => {
+            e.preventDefault();
 
-    // Event listener for the form submission
-    document.getElementById('postForm').addEventListener('submit', (event) => {
-        event.preventDefault();
-        const postTitle = document.getElementById('postTitle').value;
-        const postContent = document.getElementById('postContent').value;
-        submitPost(postTitle, postContent);
-    });
+            const postContent = document.getElementById("postContent").value;
 
-    // Fetch and display posts when the page loads
-    fetchPosts()
+            await fetch(`${baseUrl}/api/posts`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ content: postContent })
+            });
 
-</script>
+            fetchAndDisplayPosts();
+        });
+
+        commentButton.addEventListener("click", async (e) => {
+            e.preventDefault();
+            const commentContent = document.getElementById("commentContent").value;
+
+            // Assuming you have an API endpoint for adding comments
+            // Replace "POST_ID" with the actual post ID
+            let postId = 'placeholder'
+            await fetch(`${baseUrl}/api/posts/${postId}/comments`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ content: commentContent })
+            });
+
+            fetchAndDisplayPosts();
+        });
+    </script>
+</body>
+
+</html>

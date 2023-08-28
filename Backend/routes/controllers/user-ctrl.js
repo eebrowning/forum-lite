@@ -5,14 +5,16 @@ const [SECRET] = require('../../config/keys');
 const jwt = require('jsonwebtoken');
 const { setTokenCookie } = require('../../utils/auth')
 
+
 loginUser = (req, res) => {
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
-    User.findOne({ email })
+    User.findOne({ username })
         .then(user => {
             if (!user) {
+                console.log('no user', username)
                 return res.json({
-                    error: 'Unregistered Email',
+                    error: 'Please provide valid username',
                     status: 404
                 });
             }
