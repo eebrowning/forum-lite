@@ -77,7 +77,13 @@ createUser = (req, res) => {
         .then(user => {
             if (user) {
                 // Throw a 400 error if the email address already exists
-                return res.status(400).json({ email: "A user has already registered with this address" })
+                // return res.status(400).json({ email: "A user has already registered with this address" })
+                return res.status(400).json({
+                    success: false,
+                    "errors": [{ msg: "A user has already registered with this address" }]
+                })
+
+
             } else {
                 // Otherwise create a new user
                 const newUser = new User({
