@@ -32,7 +32,7 @@
     </div>
 
     <script>
-        const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL
+        const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL after backend deployment
         let token = ""; // Store the token received after successful login
 
         const postsContainer = document.getElementById("posts");
@@ -121,7 +121,7 @@
             // Assuming you have an API endpoint for adding comments
             // Replace "POST_ID" with the actual post ID
             let postId = 'placeholder'
-            await fetch(`${baseUrl}/api/posts/${postId}/comments`, {
+            await fetch(`${baseUrl}/api/comments`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
