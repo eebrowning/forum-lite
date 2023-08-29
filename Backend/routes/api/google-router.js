@@ -2,9 +2,9 @@ const express = require('express');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const session = require('express-session');
-// require('dotenv').config();
-// const { SESSION_SECRET, CLIENT_SECRET, CLIENT_ID } = process.env;
-const { SESSION_SECRET, CLIENT_SECRET, CLIENT_ID } = require('../../config/keys');
+require('dotenv').config();
+const { SESSION_SECRET, CLIENT_SECRET, CLIENT_ID } = process.env;
+// const { SESSION_SECRET, CLIENT_SECRET, CLIENT_ID } = require('../../config/keys');
 
 
 
