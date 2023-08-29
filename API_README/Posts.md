@@ -35,6 +35,7 @@
 }
 ```
 *Ex. Rejected Post response JSON:*
+- note: 'location' is closer to 'form field'
 ```
 {
     "success": false,
