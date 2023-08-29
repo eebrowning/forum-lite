@@ -12,6 +12,12 @@
 - **DELETE /auth/passport/delete/:id** will delete a specific user associated with :id (extra /delete endpoint mainly to avoid easy mistakes at the moment while testing in POSTMAN)
 
 
+ **Note**: 
+ - userId will be issued automatically to ensure unique ids, and will look like "77ecd3b95408311fe678eb77". 'userId's will be required to make comments and posts, as they are associated by them.
+ - the "Token" from the login or registration is needed, be sure to save in local storage or cookies for a time 
+ - note that the input password gets turned into a hash: that's how user passwords appear to the database so only the users 'know' their password.
+
+
 
 *Ex. Sample User Login payload JSON:*
 ```
