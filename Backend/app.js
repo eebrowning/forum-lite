@@ -1,8 +1,8 @@
 //Note, Auth stuff crammed here, could clean up on it's own route, but there isn't much to it.
 const express = require('express');
-require('dotenv').config();
 const app = express();
-const port = 3000; //
+require('dotenv').config();
+const port = process.env.PORT || 3000; //
 const bodyParser = require('body-parser');
 const cors = require('cors')
 

@@ -10,13 +10,6 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router()
 
 const validateUser = [//pass as middleware with the correct fields
-    check('username')
-        .exists({ checkFalsy: true })
-        .isLength({ min: 4 })
-        .withMessage('Please provide a username(min 4 characters).'),
-    check('username')
-        .matches(/^[a-zA-Z0-9]+$/)//alphanumeric only
-        .withMessage('Username cannot have spaces or special characters'),
     check('firstname')
         .exists({ checkFalsy: true })
         .isLength({ min: 2 })
@@ -38,10 +31,10 @@ const validateUser = [//pass as middleware with the correct fields
     handleValidationErrors
 ];
 const validateLogin = [//pass as middleware with the correct fields
-    check('username')
+    check('email')
         .exists({ checkFalsy: true })
         .isLength({ min: 1 })
-        .withMessage('Please provide a Username.'),
+        .withMessage('Please provide user email.'),
     check('password')
         .exists({ checkFalsy: true })
         .isLength({ min: 6 })
@@ -49,18 +42,20 @@ const validateLogin = [//pass as middleware with the correct fields
     handleValidationErrors
 ];
 
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.json({
-        id: req.user.id,
-        username: req.user.username,
-        email: req.user.email,
-        msg: 'this is the current user'
-    });
-})
+// router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+//     res.json({
+//         id: req.user.id,
+//         firstname: req.user.firstname,
+//         lastname: req.user.lastname,
+//         email: req.user.email,
+//         msg: 'this is the current user'
+//     });
+// })
 // router.get('/current', passport.authenticate('jwt', { session: false }), UserCtrl.currentUser);
 
 router.post('/login', validateLogin, UserCtrl.loginUser)
 router.post('/register', validateUser, UserCtrl.createUser)
+// router.get('/current', UserCtrl.currentUser)
 router.get('/:id', UserCtrl.getUser);
 router.get('/', UserCtrl.getAllUsers);
 router.put('/:id', UserCtrl.updateUser)

@@ -7,22 +7,21 @@ const { setTokenCookie } = require('../../utils/auth')
 
 
 loginUser = (req, res) => {
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
-    User.findOne({ username })
+    User.findOne({ email })
         .then(user => {
             if (!user) {
-                console.log('no user', username)
+                console.log('no user with email:', email)
                 return res.json({
-                    error: 'Please provide valid username',
+                    error: 'Please provide valid email',
                     status: 404
                 });
             }
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
                     if (isMatch) {
-                        const payload = { id: user.id, username: user.username, email: user.email };
-                        // console.log(payload.username, 'signing in')
+                        const payload = { id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email };
                         jwt.sign(
                             payload,
                             SECRET,
@@ -59,7 +58,8 @@ loginUser = (req, res) => {
 currentUser = (req, res) => {
     res.json({
         id: req.user.id,
-        username: req.user.username,
+        firstname: req.user.firstname,
+        lastname: req.user.lastname,
         email: req.user.email
     });
 }
@@ -87,7 +87,6 @@ createUser = (req, res) => {
             } else {
                 // Otherwise create a new user
                 const newUser = new User({
-                    username: req.body.username,
                     firstname: req.body.firstname,
                     lastname: req.body.lastname,
                     email: req.body.email,
@@ -141,7 +140,7 @@ getAllUsers = async (req, res) => {
 
     // let users = await User.find({});
 
-    let users = await User.find({}, '_id username');
+    let users = await User.find({}, '_id firstname lastname');
 
     try {
         res.status(200).json({
@@ -178,7 +177,6 @@ updateUser = async (req, res) => {
                 message: 'user not found!',
             })
         }
-        user.username = body.username
         user.email = body.email
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(user.password, salt, (err, hash) => {
