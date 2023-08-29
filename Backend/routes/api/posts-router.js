@@ -11,6 +11,15 @@ const validatePost = [//pass as middleware with the correct fields
     check('user')
         .exists({ checkFalsy: true })
         .withMessage('Please provide an associated userId.'),
+    check('title')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a Title at least 5 characters long.'),
+    check('body')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide post content.'),
+    check('topic')
+        .exists({ checkFalsy: true })
+        .withMessage('Please select an available Topic.'),
     handleValidationErrors
 ];
 
