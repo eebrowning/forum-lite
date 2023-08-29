@@ -1,4 +1,3 @@
-// import mongoose from "mongoose";
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -41,11 +40,11 @@ module.exports = Post;
 
 
 //test object for POSTMAN:
-const testPost = {
-    "user": 1,
-    "title": "Test Title",
-    "body": "This is a post about posts and stuff",
-    "isLiked": true,
-    "numLikes": 0,
-    "topic": "test"
-}
+// const testPost = {
+//     "user": 1,
+//     "title": "Test Title",
+//     "body": "This is a post about posts and stuff",
+//     "isLiked": true,
+//     "numLikes": 0,
+//     "topic": "test"
+// }

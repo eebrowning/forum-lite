@@ -1,9 +1,6 @@
 const jwt = require('jsonwebtoken');
-// const { jwtConfig } = require('../config');
 const passport = require('../config');
-
 const { User } = require('../db/models/user');
-// const { secret, expiresIn } = jwtConfig;
 const { secret, expiresIn } = passport;
 
 

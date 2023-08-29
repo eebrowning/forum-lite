@@ -7,7 +7,7 @@ const handleValidationErrors = (req, _res, next) => {
 
     if (!validationErrors.isEmpty()) {
 
-        console.log(req.body, req.files, 'request body and files')
+
         console.log(validationErrors.errors, '***in handle validations***')
         req.errors = validationErrors.errors;
         next();
