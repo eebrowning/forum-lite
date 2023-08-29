@@ -1,5 +1,0 @@
-{
-    "require": {
-        "heroku/heroku-buildpack-nodejs": "*"
-    }
-}
