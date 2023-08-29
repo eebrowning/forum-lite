@@ -2,7 +2,7 @@
   "name": "forum-api",
   "version": "1.0.0",
   "description": "light forum api for Philly Outreach",
-  "main": "app.js",
+  "main": "Backend/app.js",
   "scripts": {
     "start": "nodemon Backend/app.js"
   },
