@@ -32,7 +32,8 @@
     </div>
 
     <script>
-        const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL after backend deployment
+        // const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL after backend deployment
+        const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com"
         let token = ""; // Store the token received after successful login
 
         const postsContainer = document.getElementById("posts");
@@ -78,7 +79,9 @@
             let body = response.body;
 
             let rezzy = await response.json()
+            await localStorage.setItem('token', rezzy.token)
             console.log(rezzy)
+
 
             if (!rezzy.error) {
                 // const data = await response.json();

@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 const passport = require('../config');
 const { User } = require('../db/models/user');
-const { secret, expiresIn } = passport;
+// const { secret, expiresIn } = passport;
+const [SECRET] = require('../config/keys');
+
 
 
 const setTokenCookie = (res, user) => {
@@ -9,27 +11,27 @@ const setTokenCookie = (res, user) => {
     console.log(user, 'user in set Token ')
     const token = jwt.sign(
         { data: user },
-        secret,
-        { expiresIn: parseInt(expiresIn) } // 604,800 seconds = 1 week
+        SECRET,
+        { expiresIn: parseInt(3600) } // 604,800 seconds = 1 week
     );
 
     const isProduction = process.env.NODE_ENV === "production";
 
     // Set the token cookie
     res.cookie('token', token, {
-        maxAge: expiresIn * 1000, // maxAge in milliseconds
+        maxAge: 3600 * 1000, // maxAge in milliseconds
         httpOnly: true,
         secure: isProduction,
         sameSite: isProduction && "Lax"
     });
-
+    // return res;
     return token;
 };
 
 const restoreUser = (req, res, next) => {
     // token parsed from cookies
     const { token } = req.cookies;
-    console.log(req, 'restoreUser')
+    console.log(token, 'token from restoreUser')
 
     return jwt.verify(token, secret, null, async (err, jwtPayload) => {
         if (err) {

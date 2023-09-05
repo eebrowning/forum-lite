@@ -43,6 +43,7 @@ const validateLogin = [//pass as middleware with the correct fields
 ];
 
 // router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+//     console.log(req.body, 'current')
 //     res.json({
 //         id: req.user.id,
 //         firstname: req.user.firstname,

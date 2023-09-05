@@ -3,13 +3,13 @@ const bcrypt = require('bcryptjs');
 const [SECRET] = require('../../config/keys');
 
 const jwt = require('jsonwebtoken');
-const { setTokenCookie } = require('../../utils/auth')
+const { setTokenCookie, restoreUser } = require('../../utils/auth');
+// const passport = require('../../config/passport');
+
 
 
 loginUser = (req, res) => {
-    console.log("xxx")
-    console.log("Checking for Email:", req.body)
-    console.log("xxx")
+
     const email = req.body.email;
     const password = req.body.password;
     User.findOne({ email })
@@ -25,31 +25,15 @@ loginUser = (req, res) => {
                 .then(isMatch => {
                     if (isMatch) {
                         const payload = { id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email };
-                        jwt.sign(
-                            payload,
-                            SECRET,
-                            // Tell the key to expire in one hour
-                            { expiresIn: 3600 },
-                            (err, token) => {
-
-                                res.json({
-                                    success: true,
-                                    token: 'Bearer ' + token,
-                                    user: payload,
-                                });
-                            });
+                        let token = setTokenCookie(res, payload);
+                        res.json({ token, payload })
                     } else {
-                        // return res.status(400).json({ password: 'Incorrect password' });
                         res.status = 400;
-                        // res.errors = {
-                        //     field: 'password',
-                        //     error: 'Incorrect password'
-                        // }
+
                         return res.json({
                             error: 'Incorrect password',
                             status: 400
                         });
-
                     }
                 })
 
@@ -59,12 +43,18 @@ loginUser = (req, res) => {
 }
 
 currentUser = (req, res) => {
-    return res.json({
-        id: req.user.id,
-        firstname: req.user.firstname,
-        lastname: req.user.lastname,
-        email: req.user.email
-    });
+
+
+    console.log(res, ' in currentuser')
+
+
+    return res.json();
+    // return res.json({
+    //     id: req.user.id,
+    //     firstname: req.user.firstname,
+    //     lastname: req.user.lastname,
+    //     email: req.user.email
+    // });
 }
 
 
