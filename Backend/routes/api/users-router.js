@@ -55,7 +55,7 @@ const validateLogin = [//pass as middleware with the correct fields
 
 router.post('/login', validateLogin, UserCtrl.loginUser)
 router.post('/register', validateUser, UserCtrl.createUser)
-// router.get('/current', UserCtrl.currentUser)
+router.get('/current', UserCtrl.currentUser)
 router.get('/:id', UserCtrl.getUser);
 router.get('/', UserCtrl.getAllUsers);
 router.put('/:id', UserCtrl.updateUser)

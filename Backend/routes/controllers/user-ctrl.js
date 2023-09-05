@@ -7,6 +7,9 @@ const { setTokenCookie } = require('../../utils/auth')
 
 
 loginUser = (req, res) => {
+    console.log("xxx")
+    console.log("Checking for Email:", req.body)
+    console.log("xxx")
     const email = req.body.email;
     const password = req.body.password;
     User.findOne({ email })
@@ -56,7 +59,7 @@ loginUser = (req, res) => {
 }
 
 currentUser = (req, res) => {
-    res.json({
+    return res.json({
         id: req.user.id,
         firstname: req.user.firstname,
         lastname: req.user.lastname,

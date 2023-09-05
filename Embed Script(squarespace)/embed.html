@@ -13,7 +13,7 @@
     <div id="posts"></div>
 
     <div id="loginForm">
-        <input type="text" id="username" placeholder="Username">
+        <input type="text" id="email" placeholder="Email Address">
         <input type="password" id="password" placeholder="Password">
         <button id="loginButton">Log In</button>
         <ul id="loginErrors">
@@ -65,7 +65,7 @@
         loginButton.addEventListener("click", async (e) => {
             e.preventDefault();
 
-            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
             const response = await fetch(`${baseUrl}/auth/passport/login`, {
@@ -73,7 +73,7 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ email, password })
             });
             let body = response.body;
 

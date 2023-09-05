@@ -23,7 +23,7 @@
 ```
 
 {
-    "username": "wendys",
+    "email": "wendys",
     "password": "clever_password"
 }
 
