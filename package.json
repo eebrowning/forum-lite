@@ -1,0 +1,22 @@
+{
+  "name": "forum-api",
+  "version": "1.0.0",
+  "description": "light forum api ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "npm --prefix Backend install",
+    "dev:backend": "npm install --prefix Backend start",
+    "start": "npm start --prefix Backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eebrowning/forum-lite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eebrowning/forum-lite/issues"
+  },
+  "homepage": "https://github.com/eebrowning/forum-lite#readme"
+}
