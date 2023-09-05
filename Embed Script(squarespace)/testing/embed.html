@@ -32,10 +32,10 @@
     </div>
 
     <script>
-        // const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL after backend deployment
-        const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com"
-        let token = ""; // Store the token received after successful login
+        const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL after backend deployment
+        // const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com"
 
+        // console.log('test', localStorage.getItem('token'));
         const postsContainer = document.getElementById("posts");
         const loginForm = document.getElementById("loginForm");
         const postForm = document.getElementById("postForm");
@@ -47,6 +47,22 @@
 
         const loginErrors = document.getElementById("loginErrors");
 
+        let token = localStorage.getItem('token') ? localStorage.getItem('token') : ""; // Store the token received after successful login
+
+        (async function persistentLogin() {
+            console.log('in persistent login', token)
+            if (token) {
+                let login = await fetch(`${baseUrl}/auth/passport/current`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+                console.log(login.headers, 'response')
+            } else {
+                return null
+            }
+        })();
 
         // Function to fetch posts and display them
         async function fetchAndDisplayPosts() {

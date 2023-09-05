@@ -5,7 +5,7 @@ const [SECRET] = require('../../config/keys');
 const jwt = require('jsonwebtoken');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 // const passport = require('../../config/passport');
-
+const passport = require('passport');
 
 
 loginUser = (req, res) => {
@@ -43,9 +43,29 @@ loginUser = (req, res) => {
 }
 
 currentUser = (req, res) => {
+    // restoreUser;
+    // console.log(req)
+    // console.log(req., 'user')
 
+    console.log(req.headers.authorization, "in current")
+    token = req.headers.authorization;//bearer token for auth
+    // console.log(passport.authenticate('bearer', { session: false }))
+    // passport.authenticate('bearer', { session: false })
 
-    console.log(res, ' in currentuser')
+    (req, res, next) => {
+        passport.authenticate('bearer', { session: false }, (err, user) => {
+            if (err) {
+                return next(err);
+            }
+
+            if (!user) {
+                return res.status(401).json({ message: 'Authentication failed' });
+            }
+
+            console.log(user)
+            res.json({ message: 'Authentication succeeded', user: user });
+        })(req, res, next);
+    }
 
 
     return res.json();

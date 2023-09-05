@@ -16,7 +16,6 @@ const setTokenCookie = (res, user) => {
     );
 
     const isProduction = process.env.NODE_ENV === "production";
-
     // Set the token cookie
     res.cookie('token', token, {
         maxAge: 3600 * 1000, // maxAge in milliseconds
@@ -30,6 +29,7 @@ const setTokenCookie = (res, user) => {
 
 const restoreUser = (req, res, next) => {
     // token parsed from cookies
+    console.log(req, 'req from restoreUser')
     const { token } = req.cookies;
     console.log(token, 'token from restoreUser')
 
@@ -53,7 +53,7 @@ const restoreUser = (req, res, next) => {
 };
 
 const requireAuth = [
-    restoreUser,
+    // restoreUser,
     function (req, _res, next) {
         if (req.user) return next();
 

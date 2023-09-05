@@ -1,5 +1,6 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
+const BearerStrategy = require('passport-http-bearer').Strategy;
 
 const User = require('../db/models/user')
 const [SECRET] = require('../config/keys');
@@ -7,7 +8,6 @@ const [SECRET] = require('../config/keys');
 const options = {};
 options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = SECRET;
-
 
 
 module.exports = passport => {
@@ -24,7 +24,26 @@ module.exports = passport => {
             })
             .catch(err => console.log(err));
     }));
+    passport.use(
+        new BearerStrategy((token, done) => {
+            // Verify and authenticate the user based on the token
+            User.findOne({ token: token }, (err, user) => {
+                if (err) {
+                    return done(err);
+                }
+                if (!user) {
+                    return done(null, false);
+                }
+                console.log(user, 'user found')
+                return done(null, user);
+            });
+        })
+    );
+
 };
+
+
+
 
 
 
