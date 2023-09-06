@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Post Submission</title>
+</head>
+
+<body>
+    <h1>New Post Submission</h1>
+    <form id="postForm" action="/api/posts" method="POST">
+        <!-- User ID (You may handle this on the server side) -->
+        <input type="hidden" name="user" value="555dffdfd9ca3accac55f5dfc2">
+
+        <!-- Title -->
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br>
+
+        <!-- Body -->
+        <label for="body">Body:</label>
+        <textarea id="body" name="body" rows="4" required></textarea><br>
+
+        <!-- Topic : perhaps a set selection of topics? -->
+        <label for="topic">Topic:</label>
+        <input type="text" id="topic" name="topic" required><br>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit Post</button>
+    </form>
+</body>
+
+</html>

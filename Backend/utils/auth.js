@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const passport = require('../config');
+// const passport = require('../config/passport');
 const { User } = require('../db/models/user');
 // const { secret, expiresIn } = passport;
 const [SECRET] = require('../config/keys');
@@ -16,7 +16,6 @@ const setTokenCookie = (res, user) => {
     );
 
     const isProduction = process.env.NODE_ENV === "production";
-
     // Set the token cookie
     res.cookie('token', token, {
         maxAge: 3600 * 1000, // maxAge in milliseconds
@@ -24,17 +23,20 @@ const setTokenCookie = (res, user) => {
         secure: isProduction,
         sameSite: isProduction && "Lax"
     });
-    // return res;
-    return token;
+    console.log(res, 'res in settoken')
+    return res;
+    // return token;
 };
 
 const restoreUser = (req, res, next) => {
-    // token parsed from cookies
-    const { token } = req.cookies;
-    console.log(token, 'token from restoreUser')
+    // const { token } = req.cookies;
+    // token parsed from cookies wasn't working for some reason, but this does:
+    const token = req.headers.authorization.slice(7);//ugly workaround to maintain appropriate 'Bearer xxtokenxx' format
 
-    return jwt.verify(token, secret, null, async (err, jwtPayload) => {
+    return jwt.verify(token, SECRET, null, async (err, jwtPayload) => {
+        console.log(jwtPayload, 'user found')
         if (err) {
+            console.log(err)
             return next();
         }
 
@@ -53,7 +55,7 @@ const restoreUser = (req, res, next) => {
 };
 
 const requireAuth = [
-    restoreUser,
+    // restoreUser,
     function (req, _res, next) {
         if (req.user) return next();
 
