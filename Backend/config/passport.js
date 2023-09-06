@@ -1,3 +1,4 @@
+const passport = require('passport')
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const BearerStrategy = require('passport-http-bearer').Strategy;
@@ -10,38 +11,29 @@ options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = SECRET;
 
 
-module.exports = passport => {
-    passport.use(new JwtStrategy(options, (jwt_payload, done) => {
-        console.log('jwt payload', jwt_payload)
-        User.findById(jwt_payload.id)
-            .then(user => {
-                if (user) {
-                    // return the user to the frontend
-                    return done(null, user);
-                }
-                // return false since there is no user
-                return done(null, false);
-            })
-            .catch(err => console.log(err));
-    }));
-    passport.use(
-        new BearerStrategy((token, done) => {
-            // Verify and authenticate the user based on the token
-            User.findOne({ token: token }, (err, user) => {
-                if (err) {
-                    return done(err);
-                }
-                if (!user) {
-                    return done(null, false);
-                }
-                console.log(user, 'user found')
+passport.use(
+    new BearerStrategy(async (token, done) => {
+        // Verify and authenticate the user based on the token
+        User.findOne({ token: token });
+    })
+);
+passport.use(new JwtStrategy(options, (jwt_payload, done) => {
+    console.log('jwt payload', jwt_payload)
+    User.findById(jwt_payload.id)
+        .then(user => {
+            if (user) {
+                // return the user to the frontend
                 return done(null, user);
-            });
+            }
+            // return false since there is no user
+            return done(null, false);
         })
-    );
+        .catch(err => console.log(err));
+}));
 
-};
 
+
+module.exports = passport;
 
 
 

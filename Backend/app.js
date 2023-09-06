@@ -12,6 +12,7 @@ const googleRouter = require("./routes/api/google-router");
 
 const postRouter = require("./routes/api/posts-router")
 const db = require('./db');
+const { restoreUser } = require('./utils/auth');
 
 
 app.use((req, res, next) => {

@@ -1,9 +1,9 @@
 //passport sign-in
 const express = require('express');
 const UserCtrl = require('../controllers/user-ctrl');
-const passport = require('passport')
-const { check } = require('express-validator');
+const passport = require('../../config/passport')
 
+const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { restoreUser } = require('../../utils/auth');
 
@@ -57,11 +57,13 @@ const validateLogin = [//pass as middleware with the correct fields
 
 router.post('/login', validateLogin, UserCtrl.loginUser)
 router.post('/register', validateUser, UserCtrl.createUser)
+
+
 // router.get('/current', passport.authenticate('bearer', { session: false }), UserCtrl.currentUser)
-router.get('/current', UserCtrl.currentUser)
+router.get('/', restoreUser, UserCtrl.currentUser)
 
 router.get('/:id', UserCtrl.getUser);
-router.get('/', UserCtrl.getAllUsers);
+// router.get('/', UserCtrl.getAllUsers);
 router.put('/:id', UserCtrl.updateUser)
 router.delete("/delete/:id", UserCtrl.deleteUserById)
 

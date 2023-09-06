@@ -1,11 +1,8 @@
 const User = require('../../db/models/user');
 const bcrypt = require('bcryptjs');
 const [SECRET] = require('../../config/keys');
-
 const jwt = require('jsonwebtoken');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-// const passport = require('../../config/passport');
-const passport = require('passport');
 
 
 loginUser = (req, res) => {
@@ -52,21 +49,7 @@ currentUser = (req, res) => {
     // console.log(passport.authenticate('bearer', { session: false }))
     // passport.authenticate('bearer', { session: false })
 
-    (req, res, next) => {
-        passport.authenticate('bearer', { session: false }, (err, user) => {
-            if (err) {
-                return next(err);
-            }
-
-            if (!user) {
-                return res.status(401).json({ message: 'Authentication failed' });
-            }
-
-            console.log(user)
-            res.json({ message: 'Authentication succeeded', user: user });
-        })(req, res, next);
-    }
-
+    // restoreUser
 
     return res.json();
     // return res.json({
