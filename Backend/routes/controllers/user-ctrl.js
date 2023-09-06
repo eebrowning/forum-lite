@@ -63,6 +63,8 @@ currentUser = (req, res) => {
 
 createUser = (req, res) => {
     if (req.errors) {
+        console.log('check .errors', req.errors)
+
         return res.status(400).json({
             success: false,
             "errors": req.errors
