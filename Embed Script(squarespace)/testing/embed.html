@@ -52,7 +52,7 @@
         (async function persistentLogin() {
             console.log('in persistent login', token)
             if (token) {
-                let login = await fetch(`${baseUrl}/auth/passport/current`, {
+                let login = await fetch(`${baseUrl}/auth/passport`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`
