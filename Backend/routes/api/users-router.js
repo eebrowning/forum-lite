@@ -20,7 +20,7 @@ const validateUser = [//pass as middleware with the correct fields
         .exists({ checkFalsy: true })
         .isLength({ min: 2 })
         .matches(/^[a-zA-Z]+$/)//just alpha
-        .withMessage('Please provide a firstname(min 2 characters).'),
+        .withMessage('Please provide a lastname(min 2 characters).'),
     check('email')
         .exists({ checkFalsy: true })
         .isEmail()

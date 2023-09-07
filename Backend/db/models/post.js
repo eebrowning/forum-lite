@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const PostSchema = Schema({
     //association will be similar to this:
     user: {//google api stuff might change this stuff.
-        type: Number,//this will change, will be Google ID (ex: 101518615856371771990)
+        type: ObjectId,//this will change, will be Google ID (ex: 101518615856371771990)
         required: true,
         // ref: 'users' //not sure how this will go with google api for users, probably not necessary
     },
