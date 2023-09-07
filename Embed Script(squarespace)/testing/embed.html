@@ -48,17 +48,21 @@
         const loginErrors = document.getElementById("loginErrors");
 
         let token = localStorage.getItem('token') ? localStorage.getItem('token') : ""; // Store the token received after successful login
+        let currentUser = {};
 
         (async function persistentLogin() {
             console.log('in persistent login', token)
             if (token) {
-                let login = await fetch(`${baseUrl}/auth/passport`, {
+                let currentCheck = await fetch(`${baseUrl}/auth/passport/`, {
                     method: "GET",
                     headers: {
-                        "Authorization": `Bearer ${token}`
+                        "Authorization": `${token}`
                     }
                 });
-                console.log(login.headers, 'response')
+                let user = await currentCheck.json();
+                currentUser = user.body;
+                console.log(currentUser, 'response')
+                // return login.json()
             } else {
                 return null
             }
@@ -125,7 +129,7 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
+                    "Authorization": `${token}`
                 },
                 body: JSON.stringify({ content: postContent })
             });
@@ -144,7 +148,7 @@
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
+                    "Authorization": `${token}`
                 },
                 body: JSON.stringify({ content: commentContent })
             });

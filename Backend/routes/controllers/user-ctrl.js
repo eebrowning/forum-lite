@@ -22,8 +22,15 @@ loginUser = (req, res) => {
                 .then(isMatch => {
                     if (isMatch) {
                         const payload = { id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email };
-                        setTokenCookie(res, payload);
-                        res.json({ payload })
+                        // setTokenCookie(res, payload);
+                        // res.json({ payload })
+                        jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
+                            res.json({
+                                success: true,
+                                token: "Bearer " + token,
+                                user: payload
+                            });
+                        });
                     } else {
                         res.status = 400;
 
@@ -40,24 +47,20 @@ loginUser = (req, res) => {
 }
 
 currentUser = (req, res) => {
-    // restoreUser;
-    // console.log(req)
-    // console.log(req., 'user')
+    console.log(req.user, "in currentUser")
+    // res.body = req.user
 
-    console.log(req.headers.authorization, "in current")
-    token = req.headers.authorization;//bearer token for auth
-    // console.log(passport.authenticate('bearer', { session: false }))
-    // passport.authenticate('bearer', { session: false })
-
-    // restoreUser
-
-    return res.json();
-    // return res.json({
+    return res.status(200).json({
+        success: true,
+        body: req.user
+    })
+    // return res.json({ req });
+    // return req.user ? res.status(400).json({
     //     id: req.user.id,
     //     firstname: req.user.firstname,
     //     lastname: req.user.lastname,
     //     email: req.user.email
-    // });
+    // }) : null;
 }
 
 

@@ -43,23 +43,11 @@ const validateLogin = [//pass as middleware with the correct fields
     handleValidationErrors
 ];
 
-// router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-//     console.log(req.body, 'current')
-//     res.json({
-//         id: req.user.id,
-//         firstname: req.user.firstname,
-//         lastname: req.user.lastname,
-//         email: req.user.email,
-//         msg: 'this is the current user'
-//     });
-// })
-// router.get('/current', passport.authenticate('jwt', { session: false }), UserCtrl.currentUser);
+
 
 router.post('/login', validateLogin, UserCtrl.loginUser)
 router.post('/register', validateUser, UserCtrl.createUser)
 
-
-// router.get('/current', passport.authenticate('bearer', { session: false }), UserCtrl.currentUser)
 router.get('/', restoreUser, UserCtrl.currentUser)
 
 router.get('/:id', UserCtrl.getUser);
@@ -67,18 +55,20 @@ router.get('/:id', UserCtrl.getUser);
 router.put('/:id', UserCtrl.updateUser)
 router.delete("/delete/:id", UserCtrl.deleteUserById)
 
-router.get(
-    '/',
-    // restoreUser,
-    (req, res) => {
-        const { user } = req;
-        if (user) {
-            return res.json({
-                user: user.toSafeObject()
-            });
-        } else return res.json({});
-    }
-);
+
+//dunno why im saving this
+// router.get(
+//     '/',
+//     // restoreUser,
+//     (req, res) => {
+//         const { user } = req;
+//         if (user) {
+//             return res.json({
+//                 user: user.toSafeObject()
+//             });
+//         } else return res.json({});
+//     }
+// );
 
 
 module.exports = router

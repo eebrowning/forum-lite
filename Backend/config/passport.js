@@ -14,7 +14,8 @@ options.secretOrKey = SECRET;
 passport.use(
     new BearerStrategy(async (token, done) => {
         // Verify and authenticate the user based on the token
-        User.findOne({ token: token });
+        User.findOne({ token: token })
+            .then((user) => { console.log(user) });
     })
 );
 passport.use(new JwtStrategy(options, (jwt_payload, done) => {

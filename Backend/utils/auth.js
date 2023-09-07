@@ -30,19 +30,21 @@ const setTokenCookie = (res, user) => {
 
 const restoreUser = (req, res, next) => {
     // const { token } = req.cookies;
-    // token parsed from cookies wasn't working for some reason, but this does:
     const token = req.headers.authorization.slice(7);//ugly workaround to maintain appropriate 'Bearer xxtokenxx' format
 
     return jwt.verify(token, SECRET, null, async (err, jwtPayload) => {
-        console.log(jwtPayload, 'user found')
+        // console.log(jwtPayload, 'user found')
         if (err) {
             console.log(err)
             return next();
         }
 
         try {
-            const { id } = jwtPayload.data;
-            req.user = await User.scope('currentUser').findByPk(id);
+            // const { id } = jwtPayload;
+            // let user = await User.findOne({ _id: id });
+            // req.user = await User.findOne({ id });
+            req.user = jwtPayload;
+
         } catch (e) {
             res.clearCookie('token');
             return next();
