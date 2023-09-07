@@ -8,7 +8,7 @@ const [SECRET] = require('../config/keys');
 
 const setTokenCookie = (res, user) => {
     // Create the token.
-    console.log(user, 'user in set Token ')
+    // console.log(user, 'user in set Token ')
     const token = jwt.sign(
         { data: user },
         SECRET,
@@ -23,7 +23,7 @@ const setTokenCookie = (res, user) => {
         secure: isProduction,
         sameSite: isProduction && "Lax"
     });
-    console.log(res, 'res in settoken')
+    // console.log(res, 'res in settoken')
     return res;
     // return token;
 };

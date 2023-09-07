@@ -22,8 +22,8 @@ loginUser = (req, res) => {
                 .then(isMatch => {
                     if (isMatch) {
                         const payload = { id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email };
-                        let token = setTokenCookie(res, payload);
-                        res.json({ token, payload })
+                        setTokenCookie(res, payload);
+                        res.json({ payload })
                     } else {
                         res.status = 400;
 
