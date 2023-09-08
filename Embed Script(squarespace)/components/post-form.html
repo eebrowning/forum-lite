@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,6 +59,15 @@
 </head>
 
 <body>
+    <div id="loginForm">
+        <input type="text" id="email" placeholder="Email Address">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginButton">Log In</button>
+        <ul id="loginErrors">
+
+        </ul>
+    </div>
+
     <!-- <h1>New Post Submission - ignore atm </h1> -->
     <form id="post-form" style="display:none" action="/api/posts" method="POST">
         <!-- User ID (You may handle this on the server side) -->
@@ -96,18 +106,56 @@
     const toggleForm = document.getElementById('toggle-post-form');
 
     const postsContainer = document.getElementById("posts");
+    let currentUser = '';
+
+    let token = localStorage.getItem('token') ? localStorage.getItem('token') : ""; // Store the token received after successful login
+    (async function persistentLogin() {
+        console.log('in persistent login', token)
+        if (token) {
+            let currentCheck = await fetch(`${baseUrl}/auth/passport/`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `${token}`
+                }
+            });
+            let user = await currentCheck.json();
+            currentUser = user.body.id;
+
+        } else {
+            return null
+        }
+
+    })();
 
     toggleForm.addEventListener('click', async (e) => {
         e.preventDefault();
-
         postForm.style.display === "none" ? postForm.style.display = "flex" : postForm.style.display = "none";
-
-        // postForm.style.display === "none"
-        console.log('poke... do something')
-        // toggleForm.style.display = 'flex'
     })
 
+    postForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let topic = document.getElementById('topic').value;
+        let title = document.getElementById('title').value;
+        let body = document.getElementById('body').value;
+        let post = { user: currentUser, topic, title, body }
+        async function postPost() {
+            let currentCheck = await fetch(`${baseUrl}/api/posts/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(post)
+            });
+        }
+        if (currentUser) {
+            console.log(post)
+            console.log(currentUser)
 
+            postPost();
+        } else {
+            console.log('Please sign in!')
+        }
+    })
     function timeAgo(timestamp) {
         const currentTime = new Date();
         const pastTime = new Date(timestamp);
@@ -152,7 +200,7 @@
                             <p class='post-time'>${timeAgo(post.createdAt)}</p>
                         </div>
                     </div>
-                </div>
+                </div >
             `;
             postsContainer.appendChild(postElement);
         });
