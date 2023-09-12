@@ -109,10 +109,11 @@
     let currentUser = '';
 
     let token = localStorage.getItem('token') ? localStorage.getItem('token') : ""; // Store the token received after successful login
+
     (async function persistentLogin() {
         token = localStorage.getItem('token') ? localStorage.getItem('token') : 'no Token';
 
-        console.log('in persistent login', token)
+        // console.log('in persistent login', token)
         if (token) {
             let currentCheck = await fetch(`${baseUrl}/auth/passport/`, {
                 method: "GET",
@@ -122,8 +123,8 @@
             });
             let user = await currentCheck.json();
             console.log(user, 'retrieved user')
-            // currentUser = user.body.id;
-
+            currentUser = user.body.id;
+            return currentUser
         } else {
             return null
         }
