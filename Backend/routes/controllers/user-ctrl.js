@@ -47,12 +47,12 @@ loginUser = (req, res) => {
 }
 
 currentUser = (req, res) => {
-    console.log(req.user, "in currentUser")
+    console.log(req.headers.authorization, "in currentUser")
     // res.body = req.user
 
     return res.status(200).json({
         success: true,
-        body: req.user
+        body: req.headers.authorization
     })
     // return res.json({ req });
     // return req.user ? res.status(400).json({

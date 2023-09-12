@@ -100,8 +100,8 @@
 </body>
 
 <script>
-    // const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL after backend deployment
-    const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com"
+    const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL after backend deployment
+    // const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com"
     const postForm = document.getElementById('post-form');
     const toggleForm = document.getElementById('toggle-post-form');
 
@@ -110,6 +110,8 @@
 
     let token = localStorage.getItem('token') ? localStorage.getItem('token') : ""; // Store the token received after successful login
     (async function persistentLogin() {
+        token = localStorage.getItem('token') ? localStorage.getItem('token') : 'no Token';
+
         console.log('in persistent login', token)
         if (token) {
             let currentCheck = await fetch(`${baseUrl}/auth/passport/`, {
@@ -119,7 +121,8 @@
                 }
             });
             let user = await currentCheck.json();
-            currentUser = user.body.id;
+            console.log(user, 'retrieved user')
+            // currentUser = user.body.id;
 
         } else {
             return null
@@ -206,6 +209,44 @@
         });
     }
     fetchAndDisplayPosts();
+
+    loginButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const response = await fetch(`${baseUrl}/auth/passport/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+        let body = response.body;
+
+        let res = await response.json()
+        console.log(res, 'res in loginbutton')
+
+        if (!res.error) {
+            // const data = await response.json();
+            token = res.token;
+            localStorage.setItem('token', token);
+            loginForm.style.display = "none";
+            postForm.style.display = "block";
+            commentForm.style.display = "block";
+            // fetchAndDisplayPosts();//removed when separated: user's login token will be used 
+        } else {
+            // let error = document.createElement("li");
+            loginErrors.innerHTML = `${res.error}`;
+            // loginErrors.append(error);
+        }
+        //  else {
+        //     alert("Login failed. Please check your credentials.");
+        // }
+    });
+
+
 </script>
 
 </html>
