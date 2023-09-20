@@ -10,7 +10,6 @@
 <body>
     <h1>User Registration</h1>
     <ul id='registration-errors'>
-
     </ul>
     <form id="registration-form" action="/auth/passport/register" method="POST">
         <!-- First Name -->
@@ -39,8 +38,8 @@
 <script>
     // Assuming you have an element with id "registration-form" for the form
     const registrationForm = document.getElementById("registration-form");
-    // let baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com";
-    let baseUrl = "http://localhost:3000";
+    let baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com";
+    // let baseUrl = "http://localhost:3000";
 
     //Submit listener
     registrationForm.addEventListener("submit", async (e) => {
