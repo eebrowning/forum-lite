@@ -1,7 +1,7 @@
 <!-- 
     README: This holds "<section>"s and "<scripts>" in the Body.
             There are styles in the Head.
-    
+    Copy and paste into an IDE, and you can collapse sections for easier navigation
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -113,8 +113,10 @@
             </form>
 
         </div>
-
-        <div id="persistent-user">
+        <div style="display: flex; ">
+            <div id="persistent-user">
+            </div>
+            <button id="logoutButton" style="display:none">Logout</button>
         </div>
     </section>
     <!-- logic for login and registration -->
@@ -125,6 +127,7 @@
         let toggleRegistration = document.getElementById('toggle-registration')
         let toggleLogin = document.getElementById('toggle-login')
         let persistentUser = document.getElementById('persistent-user');
+
         let currentUser = '';
 
         let token = localStorage.getItem('token') ? localStorage.getItem('token') : ""; // Store the token received after successful login
@@ -143,7 +146,10 @@
                 let user = await currentCheck.json();
                 console.log(user, 'retrieved user')
                 loginFlow.style.display = 'none'
-                persistentUser.innerHTML = `<h2> Welcome back, ${user.body.firstname}</h2>`
+                const welcome = document.createElement('h2');
+                welcome.innerHTML = `Welcome back, ${user.body.firstname}`
+                persistentUser.appendChild(welcome);
+                logoutButton.style.display = ""
                 currentUser = user.body.id;
                 return currentUser
             } else {
@@ -177,7 +183,6 @@
                 loginForm.style.display = "none";
                 // console.log(res)
                 persistentUser.innerHTML = `<h2> Welcome, ${res.user.firstname}</h2>`
-                // commentForm.style.display = "block";
 
             } else {
                 // let error = document.createElement("li");
@@ -270,6 +275,9 @@
 
 
         <!-- <h1>New Post Submission - ignore atm </h1> -->
+        <ul id="post-errors">
+
+        </ul>
         <form id="post-form" style="display:none" action="/api/posts" method="POST">
             <!-- User ID (You may handle this on the server side) -->
             <input type="hidden" name="user" value="555dffdfd9ca3accac55f5dfc2">
@@ -288,7 +296,7 @@
             <!-- Submit Button -->
             <button type="submit">Submit Post</button>
         </form>
-        <button id="toggle-post-form">Post</button>
+        <button id="toggle-post-form" style="display:none">Post</button>
         <!-- Here will be topic filters at some point. -->
         <!-- <select id="topic-selection">
         <option value="shelter">Shelter</option>
@@ -322,6 +330,7 @@
                 let user = await currentCheck.json();
                 console.log(user, 'retrieved user')
                 currentUser = user.body.id;
+                toggleForm.style.display = ''
                 return currentUser
             } else {
                 return null
@@ -340,6 +349,8 @@
             let title = document.getElementById('title').value;
             let body = document.getElementById('body').value;
             let post = { user: currentUser, topic, title, body }
+            const errors = document.getElementById("post-errors");
+
             async function postPost() {
                 let currentCheck = await fetch(`${baseUrl}/api/posts/`, {
                     method: "POST",
@@ -348,12 +359,28 @@
                     },
                     body: JSON.stringify(post)
                 });
+
+                let response = await currentCheck.json();
+                console.log(response, "attempted post")
+                if (response.errors) {
+                    const errorData = response;
+                    console.error("Registration failed:", errorData.errors);
+                    errorData.errors?.forEach(err => {
+                        console.log(err);
+                        const postErr = document.createElement("li");
+                        postErr.innerHTML = err.msg;
+                        errors.appendChild(postErr)
+                    })
+
+                }
+                return res;
             }
             if (currentUser) {
                 console.log(post)
                 console.log(currentUser)
 
-                postPost();
+                await postPost();
+
             } else {
                 console.log('Please sign in!')
             }
@@ -409,12 +436,11 @@
         }
         fetchAndDisplayPosts();
 
+        // const loginButton = document.getElementById('loginButton');
         loginButton.addEventListener("click", async (e) => {
             e.preventDefault();
-
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-
             const response = await fetch(`${baseUrl}/auth/passport/login`, {
                 method: "POST",
                 headers: {
@@ -432,8 +458,7 @@
                 token = res.token;
                 localStorage.setItem('token', token);
                 loginForm.style.display = "none";
-                postForm.style.display = "block";
-                commentForm.style.display = "block";
+                location.reload();
                 // fetchAndDisplayPosts();//removed when separated: user's login token will be used 
             } else {
                 // let error = document.createElement("li");
@@ -445,6 +470,12 @@
             // }
         });
 
+        // const logoutButton = document.getElementById('logoutButton');
+        logoutButton.addEventListener("click", async (e) => {
+            e.preventDefault();
+            localStorage.clear('token');
+            location.reload();
+        });
 
     </script>
 
