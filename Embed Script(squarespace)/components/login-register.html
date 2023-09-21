@@ -8,54 +8,54 @@
 </head>
 
 <body>
-    <div id="registration-form-display">
+    <section id="login-reg-section">
+        <div id="registration-form-display">
 
-        <div id="login-form">
-            <div id="login-form-x">
-                <h2>User Login</h2>
-                <ul id="loginErrors">
+            <div id="login-form">
+                <div id="login-form-x">
+                    <h2>User Login</h2>
+                    <ul id="loginErrors">
+                    </ul>
+                    <input type="text" id="email" placeholder="Email Address">
+                    <input type="password" id="password" placeholder="Password">
+                </div>
+                <button id="loginButton">Log In</button>
+                <button id="toggle-registration">Don't have an account?</button>
 
-                </ul>
-
-                <input type="text" id="email" placeholder="Email Address">
-                <input type="password" id="password" placeholder="Password">
             </div>
-            <button id="loginButton">Log In</button>
-            <button id="toggle-registration">Don't have an account?</button>
+            <form id="registration-form" style="display:none" action="/auth/passport/register" method="POST">
+                <h2>User Registration</h2>
+                <ul id='registration-errors'>
+                </ul>
+                <!-- First Name -->
+                <label for="firstname">First Name:</label>
+                <input type="text" id="firstname" name="firstname" required><br>
+
+                <!-- Last Name -->
+                <label for="lastname">Last Name:</label>
+                <input type="text" id="lastname" name="lastname" required><br>
+
+                <!-- Email -->
+                <label for="email">Email:</label>
+                <input type="email" id="register-email" name="email" required><br>
+
+                <!-- Password -->
+                <label for="password">Password:</label>
+                <input type="password" id="register-password" name="password" required><br>
+                <label for="verify-password">Verify Password:</label>
+                <input type="password" id="verify-password" name="verify-password" required><br>
+
+
+                <!-- Submit Button -->
+                <button type="submit">Register</button>
+                <button id="toggle-login">Already have an account?</button>
+            </form>
 
         </div>
-        <form id="registration-form" style="display:none" action="/auth/passport/register" method="POST">
-            <h2>User Registration</h2>
-            <ul id='registration-errors'>
-            </ul>
-            <!-- First Name -->
-            <label for="firstname">First Name:</label>
-            <input type="text" id="firstname" name="firstname" required><br>
 
-            <!-- Last Name -->
-            <label for="lastname">Last Name:</label>
-            <input type="text" id="lastname" name="lastname" required><br>
-
-            <!-- Email -->
-            <label for="email">Email:</label>
-            <input type="email" id="register-email" name="email" required><br>
-
-            <!-- Password -->
-            <label for="password">Password:</label>
-            <input type="password" id="register-password" name="password" required><br>
-            <label for="verify-password">Verify Password:</label>
-            <input type="password" id="verify-password" name="verify-password" required><br>
-
-
-            <!-- Submit Button -->
-            <button type="submit">Register</button>
-            <button id="toggle-login">Already have an account?</button>
-        </form>
-
-    </div>
-
-    <div id="persistent-user">
-    </div>
+        <div id="persistent-user">
+        </div>
+    </section>
 
 </body>
 
@@ -68,7 +68,7 @@
     const loginFlow = document.getElementById('registration-form-display')
     let baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com";
     // let baseUrl = "http://localhost:3000";
-    let toggleForm = document.getElementById('toggle-registration')
+    let toggleRegistration = document.getElementById('toggle-registration')
     let toggleLogin = document.getElementById('toggle-login')
     let persistentUser = document.getElementById('persistent-user');
     let currentUser = '';
@@ -196,7 +196,7 @@
     });
 
 
-    toggleForm.addEventListener('click', async (e) => {
+    toggleRegistration.addEventListener('click', async (e) => {
         e.preventDefault();
         registrationForm.style.display === "none" ? registrationForm.style.display = "" : registrationForm.style.display = "none";
         loginForm.style.display !== "none" ? loginForm.style.display = "none" : loginForm.style.display = "";

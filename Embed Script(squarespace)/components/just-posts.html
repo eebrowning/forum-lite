@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Post Submission</title>
+
+    <style>
+        #posts {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* border: 1px solid red; */
+        }
+
+        .post {
+            border: 1.5px solid whitesmoke;
+            display: flex;
+            flex-direction: row;
+            width: 80vw;
+            justify-content: center;
+        }
+
+        .post-pic {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* border: 1px solid red; */
+            width: 5rem;
+            height: 5rem;
+        }
+
+        .profile-pic {
+            border-radius: 50%;
+            background-color: grey;
+            width: 3rem;
+            height: 3rem;
+
+        }
+
+        .post-content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .post-extras {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .post-time {
+            justify-content: flex-end;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="loginForm">
+        <input type="text" id="email" placeholder="Email Address">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginButton">Log In</button>
+        <ul id="loginErrors">
+
+        </ul>
+    </div>
+    <section id="post-section">
+
+
+        <!-- <h1>New Post Submission - ignore atm </h1> -->
+        <form id="post-form" style="display:none" action="/api/posts" method="POST">
+            <!-- User ID (You may handle this on the server side) -->
+            <input type="hidden" name="user" value="555dffdfd9ca3accac55f5dfc2">
+            <!-- Title -->
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required><br>
+
+            <!-- Body -->
+            <label for="body">Body:</label>
+            <textarea id="body" name="body" rows="4" required></textarea><br>
+
+            <!-- Topic : perhaps a set selection of topics? -->
+            <label for="topic">Topic:</label>
+            <input type="text" id="topic" name="topic" required><br>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit Post</button>
+        </form>
+        <button id="toggle-post-form">Post</button>
+        <!-- Here will be topic filters at some point. -->
+        <!-- <select id="topic-selection">
+        <option value="shelter">Shelter</option>
+        <option value="food">Food</option>
+        <option value="transportation">Transportation</option>
+        <option value="work-programs">Work Programs</option>
+    </select> -->
+        <h2> Sample posts to practice styling</h2>
+        <div id="posts"></div>
+    </section>
+</body>
+
+<script>
+    // const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL after backend deployment
+    const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com"
+    const postForm = document.getElementById('post-form');
+    const toggleForm = document.getElementById('toggle-post-form');
+
+    const postsContainer = document.getElementById("posts");
+    let currentUser = '';
+
+    let token = localStorage.getItem('token') ? localStorage.getItem('token') : ""; // Store the token received after successful login
+
+    (async function persistentLogin() {
+        token = localStorage.getItem('token') ? localStorage.getItem('token') : 'no Token';
+
+        // console.log('in persistent login', token)
+        if (token) {
+            let currentCheck = await fetch(`${baseUrl}/auth/passport/`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `${token}`
+                }
+            });
+            let user = await currentCheck.json();
+            console.log(user, 'retrieved user')
+            currentUser = user.body.id;
+            return currentUser
+        } else {
+            return null
+        }
+
+    })();
+
+    toggleForm.addEventListener('click', async (e) => {
+        e.preventDefault();
+        postForm.style.display === "none" ? postForm.style.display = "flex" : postForm.style.display = "none";
+    })
+
+    postForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let topic = document.getElementById('topic').value;
+        let title = document.getElementById('title').value;
+        let body = document.getElementById('body').value;
+        let post = { user: currentUser, topic, title, body }
+        async function postPost() {
+            let currentCheck = await fetch(`${baseUrl}/api/posts/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(post)
+            });
+        }
+        if (currentUser) {
+            console.log(post)
+            console.log(currentUser)
+
+            postPost();
+        } else {
+            console.log('Please sign in!')
+        }
+    })
+    function timeAgo(timestamp) {
+        const currentTime = new Date();
+        const pastTime = new Date(timestamp);
+
+        const timeDifference = currentTime - pastTime;
+
+        const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
+
+        if (hoursAgo < 24) {
+            if (hoursAgo === 0) {
+                return "Less than an hour ago";
+            } else if (hoursAgo === 1) {
+                return "1 hour ago";
+            } else {
+                return `${hoursAgo} hours ago`;
+            }
+        } else {
+            // Format as "mm/dd/yy"
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            return pastTime.toLocaleDateString(undefined, options);
+        }
+    }
+
+
+    async function fetchAndDisplayPosts() {
+        const response = await fetch(`${baseUrl}/api/posts`);
+        const rezzy = await response.json();
+        const posts = rezzy.data.posts;
+        postsContainer.innerHTML = "";
+        console.log(posts)
+        posts.forEach(post => {
+            const postElement = document.createElement("div");
+            postElement.innerHTML = `
+                <div key=${post.id} class='post'>
+                    <div class='post-pic'>
+                        <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/669dbabb-d4c5-4170-bbe6-1fffd7b4bb09/d1hqao6-65cb92af-df90-4453-883f-9969721d6e40.png/v1/fill/w_894,h_894,q_75,strp/strawhat_sail_flag__by_zerocustom1989.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi82NjlkYmFiYi1kNGM1LTQxNzAtYmJlNi0xZmZmZDdiNGJiMDkvZDFocWFvNi02NWNiOTJhZi1kZjkwLTQ0NTMtODgzZi05OTY5NzIxZDZlNDAucG5nIiwid2lkdGgiOiI8PTg5NCIsImhlaWdodCI6Ijw9ODk0In1dXX0.33xY1VmT061dntiaITL9pHHrzqiU2lhc1TXSkIuj4Wk" alt="" class='profile-pic'>
+                    </div>
+                    <div class='post-content'>
+                        <h3 class='post-title'>${post.title}</h3>
+                        <p class='post-body'>${post.body}</p>
+                        <div class='post-extras'>
+                            <p class='post-time'>${timeAgo(post.createdAt)}</p>
+                        </div>
+                    </div>
+                </div >
+            `;
+            postsContainer.appendChild(postElement);
+        });
+    }
+    fetchAndDisplayPosts();
+
+    loginButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const response = await fetch(`${baseUrl}/auth/passport/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+        let body = response.body;
+
+        let res = await response.json()
+        console.log(res, 'res in loginbutton')
+
+        if (!res.error) {
+            // const data = await response.json();
+            token = res.token;
+            localStorage.setItem('token', token);
+            loginForm.style.display = "none";
+            postForm.style.display = "block";
+            commentForm.style.display = "block";
+            // fetchAndDisplayPosts();//removed when separated: user's login token will be used 
+        } else {
+            // let error = document.createElement("li");
+            loginErrors.innerHTML = `${res.error}`;
+            // loginErrors.append(error);
+        }
+        //  else {
+        //     alert("Login failed. Please check your credentials.");
+        // }
+    });
+
+
+</script>
+
+</html>
