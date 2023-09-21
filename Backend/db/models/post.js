@@ -10,12 +10,12 @@ const PostSchema = Schema({
     },
     title: {
         type: String,
-        minLength: 5,
+        minLength: 4,
         required: true,
     },
     body: {
         type: String,
-        minLength: 2,
+        minLength: 1,
         required: true,
     },
     isLiked: {
