@@ -2,6 +2,12 @@
     README: This holds "<section>"s and "<scripts>" in the Body.
             There are styles in the Head.
     Copy and paste into an IDE, and you can collapse sections for easier navigation
+
+    TODO: make comment button/form, which will need a post display
+
+post display could grab post's _id from clicked post, grab that post(from the already-fetched data), and then fetch the associated comments to that _id
+
+posts/comments should probably be stored in localStorage as a faux-state managment
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -412,13 +418,13 @@
         async function fetchAndDisplayPosts() {
             const response = await fetch(`${baseUrl}/api/posts`);
             const rezzy = await response.json();
-            const posts = rezzy.data.posts;
+            const posts = rezzy.data.posts;//consider raising out of block scope to access already-fetched posts
             postsContainer.innerHTML = "";
             console.log(posts)
             posts.forEach(post => {
                 const postElement = document.createElement("div");
                 postElement.innerHTML = `
-                    <div key=${post.id} class='post'>
+                    <div key=${post._id} id=${post._id} class='post'>
                         <div class='post-pic'>
                             <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/669dbabb-d4c5-4170-bbe6-1fffd7b4bb09/d1hqao6-65cb92af-df90-4453-883f-9969721d6e40.png/v1/fill/w_894,h_894,q_75,strp/strawhat_sail_flag__by_zerocustom1989.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi82NjlkYmFiYi1kNGM1LTQxNzAtYmJlNi0xZmZmZDdiNGJiMDkvZDFocWFvNi02NWNiOTJhZi1kZjkwLTQ0NTMtODgzZi05OTY5NzIxZDZlNDAucG5nIiwid2lkdGgiOiI8PTg5NCIsImhlaWdodCI6Ijw9ODk0In1dXX0.33xY1VmT061dntiaITL9pHHrzqiU2lhc1TXSkIuj4Wk" alt="" class='profile-pic'>
                         </div>
