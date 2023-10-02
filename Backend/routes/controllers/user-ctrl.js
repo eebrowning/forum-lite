@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const [SECRET] = require('../../config/keys');
 const jwt = require('jsonwebtoken');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const Post = require('../../db/models/post');
 
 
 loginUser = (req, res) => {
@@ -121,8 +122,11 @@ createUser = (req, res) => {
 
 getUser = async (req, res) => {
 
-    let user = await User.findOne({ _id: req.params.id })
-    // console.log(user, 'users in getuser')
+    let user = await User.findOne({ _id: req.params.id });
+    // await user.populate("posts");
+    await User.find().populate('posts');
+
+    console.log(user, 'users in getuser')
 
     try {
         res.status(200).json({

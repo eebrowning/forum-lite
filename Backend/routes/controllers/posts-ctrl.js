@@ -1,6 +1,7 @@
 //CRUD stuff will go here
 
 const Post = require('../../db/models/post');
+const User = require('../../db/models/user');
 //users should be able to make a post
 //users should be able to have discussions 
 createPost = (req, res) => {//create
@@ -8,7 +9,6 @@ createPost = (req, res) => {//create
     console.log('XXXXXXXX')
     console.log('test: this is the req body', req.body)
     console.log('XXXXXXXX')
-
 
     if (req.errors) {
         return res.status(400).json({
@@ -28,18 +28,45 @@ createPost = (req, res) => {//create
         return res.status(400).json({ success: false, error: err })
     }
 
-    post
-        .save()
-        .then(() => {
-            return res.status(201).json({
-                success: true,
-                id: post._id,
-                data: post,
-                message: 'Post created!',
-            })
+    // post.save()
+    //     .then(() => {
+    //         return res.status(201).json({
+    //             success: true,
+    //             id: post._id,
+    //             data: post,
+    //             message: 'Post created!',
+    //         })
 
+    //     })
+
+    post.save()
+        .then((newPost) => {
+            // Add the new post's ID to the user's 'posts' array
+            let userObjectId = post.user;
+            User.findByIdAndUpdate(userObjectId, { $push: { posts: newPost._id } })
+                .then(() => {
+                    return res.status(201).json({
+                        success: true,
+                        id: newPost._id,
+                        data: newPost,
+                        message: 'Post created!',
+                    });
+                })
+                .catch((err) => {
+                    console.error(err);
+                    return res.status(500).json({
+                        success: false,
+                        error: 'Failed to update user with the new post reference.',
+                    });
+                });
         })
-
+        .catch((err) => {
+            console.error(err);
+            return res.status(500).json({
+                success: false,
+                error: 'Failed to create the post.',
+            });
+        });
 }
 
 
