@@ -24,6 +24,7 @@ const UserSchema = Schema({
         minLength: 2,
         required: true,
     },
+    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Posts' }]
 
 }, { timestamps: true });
 

@@ -30,8 +30,8 @@ const setTokenCookie = (res, user) => {
 
 const restoreUser = (req, res, next) => {
     // const { token } = req.cookies;
-    const token = req.headers.authorization.slice(7);//ugly workaround to maintain appropriate 'Bearer xxtokenxx' format
-    console.log(req.headers.authorization, 'token')
+    const token = req.headers.authorization?.slice(7);//ugly workaround to maintain appropriate 'Bearer xxtokenxx' format
+    // console.log(req.headers.authorization, 'token')
     return jwt.verify(token, SECRET, null, async (err, jwtPayload) => {
         console.log(jwtPayload, 'user found')
         if (err) {

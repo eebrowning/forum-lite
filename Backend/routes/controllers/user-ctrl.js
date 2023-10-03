@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const [SECRET] = require('../../config/keys');
 const jwt = require('jsonwebtoken');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const Post = require('../../db/models/post');
+const { default: test } = require('node:test');
 
 
 loginUser = (req, res) => {
@@ -21,7 +23,14 @@ loginUser = (req, res) => {
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
                     if (isMatch) {
-                        const payload = { id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email };
+                        console.log(user, 'user wuser')
+                        const payload = {
+                            id: user.id,
+                            firstname: user.firstname,
+                            lastname: user.lastname,
+                            email: user.email,
+                            posts: user.posts
+                        };
                         // setTokenCookie(res, payload);
                         // res.json({ payload })
                         jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
@@ -121,7 +130,8 @@ createUser = (req, res) => {
 
 getUser = async (req, res) => {
 
-    let user = await User.findOne({ _id: req.params.id })
+    let user = await User.findOne({ _id: req.params.id }).populate('posts');
+
     // console.log(user, 'users in getuser')
 
     try {

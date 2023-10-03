@@ -6,14 +6,14 @@ const Schema = mongoose.Schema;
 const CommentSchema = Schema({
     //association will be similar to this:
     user: {//google api stuff might change this stuff.
-        type: Number,//this will change, will be Google ID (ex: 101518615856371771990)
+        type: mongoose.Schema.Types.ObjectId,//this will change, will be Google ID (ex: 101518615856371771990)
         required: true,
-        // ref: 'users' //not sure how this will go with google api for users, probably not necessary
+        ref: 'Users' //not sure how this will go with google api for users, probably not necessary
     },
     postId: {
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'posts'
+        ref: 'Posts'
     },
     text: {
         type: String,
@@ -43,7 +43,7 @@ module.exports = Comment;
 
 //Test Comment for POSTMAN
 const testComment = {
-    "user": 1,
-    "postId": 1,
-    "text": "Brown chicken brown cow"
+    "user": "64f8adfef9aaa8334b8e9b63",
+    "postId": "651c60ff0f6d5e659baaa389",
+    "text": "Should be associated to post w/ postId"
 }

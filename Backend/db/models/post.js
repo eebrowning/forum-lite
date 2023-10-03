@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const PostSchema = Schema({
     //association will be similar to this:
-    user: {//google api stuff might change this stuff.
-        type: String,//this will change, will be Google ID (ex: 101518615856371771990)
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
-        // ref: 'users' //not sure how this will go with google api for users, probably not necessary
+        ref: 'Users'
     },
     title: {
         type: String,
@@ -29,7 +29,9 @@ const PostSchema = Schema({
     topic: {
         type: String,
         required: true
-    }
+    },
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comments' }]
+
 }, { timestamps: true });
 
 const Post = mongoose.model("Posts", PostSchema);
@@ -40,11 +42,11 @@ module.exports = Post;
 
 
 //test object for POSTMAN:
-// const testPost = {
-//     "user": 1,
-//     "title": "Test Title",
-//     "body": "This is a post about posts and stuff",
-//     "isLiked": true,
-//     "numLikes": 0,
-//     "topic": "test"
-// }
+const testPost = {
+    "user": "64f8adfef9aaa8334b8e9b63",
+    "title": "Associated to user",
+    "body": "This is a post, should be associated to user",
+    "isLiked": true,
+    "numLikes": 0,
+    "topic": "test"
+}

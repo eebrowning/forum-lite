@@ -35,7 +35,13 @@
 {
     success: true,
     token: 'Bearer ' + token,
-    user: { id: user.id, firstname: user.lastname, laststname: user.lastname, email: user.email },
+    user: { 
+        id: user.id, 
+        firstname: user.lastname, 
+        lastname: user.lastname, 
+        email: user.email,
+        posts: [...<whatever posts the user has made>] 
+        },
 }
 ```
 *Ex. Rejected Login JSON:*
