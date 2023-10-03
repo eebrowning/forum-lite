@@ -4,6 +4,7 @@ const [SECRET] = require('../../config/keys');
 const jwt = require('jsonwebtoken');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const Post = require('../../db/models/post');
+const { default: test } = require('node:test');
 
 
 loginUser = (req, res) => {
@@ -129,11 +130,9 @@ createUser = (req, res) => {
 
 getUser = async (req, res) => {
 
-    let user = await User.findOne({ _id: req.params.id });
-    // await user.populate("posts");
-    await User.find().populate('posts');
+    let user = await User.findOne({ _id: req.params.id }).populate('posts');
 
-    console.log(user, 'users in getuser')
+    // console.log(user, 'users in getuser')
 
     try {
         res.status(200).json({

@@ -2,13 +2,13 @@
 
 const Post = require('../../db/models/post');
 const User = require('../../db/models/user');
-//users should be able to make a post
-//users should be able to have discussions 
+
+
 createPost = (req, res) => {//create
     const body = req.body;
-    console.log('XXXXXXXX')
-    console.log('test: this is the req body', req.body)
-    console.log('XXXXXXXX')
+    // console.log('XXXXXXXX')
+    // console.log('test: this is the req body', req.body)
+    // console.log('XXXXXXXX')
 
     if (req.errors) {
         return res.status(400).json({
@@ -43,6 +43,7 @@ createPost = (req, res) => {//create
         .then((newPost) => {
             // Add the new post's ID to the user's 'posts' array
             let userObjectId = post.user;
+            //related to .populate() 
             User.findByIdAndUpdate(userObjectId, { $push: { posts: newPost._id } })
                 .then(() => {
                     return res.status(201).json({
@@ -71,7 +72,7 @@ createPost = (req, res) => {//create
 
 
 getPosts = async (req, res) => {//read all posts
-    let posts = await Post.find({})
+    let posts = await Post.find({}).populate('comments')
     try {
         res.status(200).json({
             success: true,
@@ -88,10 +89,25 @@ getPosts = async (req, res) => {//read all posts
 
 }
 
-// getpostById = () => {//read post by an id 
+getPostById = async (req, res) => {//read post by an id 
 
-// }
+    let post = await Post.findOne({ _id: req.params.id }).populate('comments');
+    console.log(post, 'post')
 
+
+    try {
+        res.status(200).json({
+            success: true,
+            data: post
+        })
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err
+        })
+    }
+
+}
 
 
 deletePostById = async (req, res) => {//delete
@@ -102,7 +118,7 @@ deletePostById = async (req, res) => {//delete
     try {
 
         let userObjectId = deleted.user;
-
+        //related to .populate() logic
         await User.findByIdAndUpdate(userObjectId, { $pull: { posts: deleted._id } })
         await Post.findOneAndDelete({ _id: req.params.id })
 
@@ -125,7 +141,7 @@ deletePostById = async (req, res) => {//delete
 
 module.exports = {
     createPost,
-    // getPostById,
+    getPostById,
     getPosts,
     deletePostById
 }

@@ -29,7 +29,9 @@ const PostSchema = Schema({
     topic: {
         type: String,
         required: true
-    }
+    },
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comments' }]
+
 }, { timestamps: true });
 
 const Post = mongoose.model("Posts", PostSchema);
