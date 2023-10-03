@@ -42,11 +42,11 @@ module.exports = Post;
 
 
 //test object for POSTMAN:
-// const testPost = {
-//     "user": 1,
-//     "title": "Test Title",
-//     "body": "This is a post about posts and stuff",
-//     "isLiked": true,
-//     "numLikes": 0,
-//     "topic": "test"
-// }
+const testPost = {
+    "user": "64f8adfef9aaa8334b8e9b63",
+    "title": "Associated to user",
+    "body": "This is a post, should be associated to user",
+    "isLiked": true,
+    "numLikes": 0,
+    "topic": "test"
+}

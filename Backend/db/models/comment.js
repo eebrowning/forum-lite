@@ -42,8 +42,8 @@ module.exports = Comment;
 
 
 //Test Comment for POSTMAN
-// const testComment = {
-//     "user": 1,
-//     "postId": 1,
-//     "text": "Brown chicken brown cow"
-// }
+const testComment = {
+    "user": "64f8adfef9aaa8334b8e9b63",
+    "postId": "651c60ff0f6d5e659baaa389",
+    "text": "Should be associated to post w/ postId"
+}
