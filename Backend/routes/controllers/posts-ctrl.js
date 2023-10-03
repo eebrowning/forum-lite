@@ -104,25 +104,9 @@ deletePostById = async (req, res) => {//delete
     try {
 
         let userObjectId = deleted.user;
-        // User.findByIdAndUpdate(userObjectId, { $pull: { posts: req.params.id } })
+
         await User.findByIdAndUpdate(userObjectId, { $pull: { posts: deleted._id } })
-        // .then(() => {
-
-        //     return res.status(200).json({
-        //         success: true,
-        //         message: 'Post deleted successfully.',
-        //     });
-        // })
-        // .catch((err) => {
-        //     console.error(err);
-        //     return res.status(500).json({
-        //         success: false,
-        //         error: 'Failed to update user after deleting the post.',
-        //     });
-        // });
         await Post.findOneAndDelete({ _id: req.params.id })
-
-
 
         res.status(200).json({
             success: true,
