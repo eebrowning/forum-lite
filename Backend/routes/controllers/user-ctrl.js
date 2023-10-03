@@ -22,7 +22,14 @@ loginUser = (req, res) => {
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
                     if (isMatch) {
-                        const payload = { id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email };
+                        console.log(user, 'user wuser')
+                        const payload = {
+                            id: user.id,
+                            firstname: user.firstname,
+                            lastname: user.lastname,
+                            email: user.email,
+                            posts: user.posts
+                        };
                         // setTokenCookie(res, payload);
                         // res.json({ payload })
                         jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {

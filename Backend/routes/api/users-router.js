@@ -48,10 +48,10 @@ const validateLogin = [//pass as middleware with the correct fields
 router.post('/login', validateLogin, UserCtrl.loginUser)
 router.post('/register', validateUser, UserCtrl.createUser)
 
-router.get('/', restoreUser, UserCtrl.currentUser)
+router.get('/current', restoreUser, UserCtrl.currentUser)
 
 router.get('/:id', UserCtrl.getUser);
-// router.get('/', UserCtrl.getAllUsers);
+router.get('/', UserCtrl.getAllUsers);
 router.put('/:id', UserCtrl.updateUser)
 router.delete("/delete/:id", UserCtrl.deleteUserById)
 
