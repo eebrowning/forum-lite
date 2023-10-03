@@ -96,10 +96,8 @@ getPosts = async (req, res) => {//read all posts
 
 deletePostById = async (req, res) => {//delete
 
-
     let deleted = await Post.findOne({ _id: req.params.id })
 
-    console.log(deleted, 'bleeeeeeh')
 
     try {
 
