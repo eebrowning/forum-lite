@@ -58,7 +58,6 @@ createComment = (req, res) => {//create
         })
         .catch((err) => {
 
-
             res.status(500).json({
                 success: false,
                 message: err
