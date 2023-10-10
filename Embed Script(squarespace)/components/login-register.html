@@ -1,76 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
+<style>
+    #login-reg-section {
+        border-radius: .5rem;
+        border: 1px solid #538975;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration</title>
-</head>
+    #login-reg-section button {
+        border-radius: .3rem;
+        border: 1px solid #538975;
+        color: #538975;
+        background-color: transparent;
+    }
 
-<body>
-    <section id="login-reg-section">
-        <div id="registration-form-display">
+    #login-reg-section button:hover {
+        border-radius: .3rem;
+        border: 1px solid #538975;
+        color: white;
+        background-color: rgba(83, 137, 117, .75);
+    }
 
-            <div id="login-form">
-                <div id="login-form-x">
-                    <h2>User Login</h2>
-                    <ul id="loginErrors">
-                    </ul>
-                    <input type="text" id="email" placeholder="Email Address">
-                    <input type="password" id="password" placeholder="Password">
-                </div>
-                <button id="loginButton">Log In</button>
-                <button id="toggle-registration">Don't have an account?</button>
-
-            </div>
-            <form id="registration-form" style="display:none" action="/auth/passport/register" method="POST">
-                <h2>User Registration</h2>
-                <ul id='registration-errors'>
-                </ul>
-                <!-- First Name -->
-                <label for="firstname">First Name:</label>
-                <input type="text" id="firstname" name="firstname" required><br>
-
-                <!-- Last Name -->
-                <label for="lastname">Last Name:</label>
-                <input type="text" id="lastname" name="lastname" required><br>
-
-                <!-- Email -->
-                <label for="email">Email:</label>
-                <input type="email" id="register-email" name="email" required><br>
-
-                <!-- Password -->
-                <label for="password">Password:</label>
-                <input type="password" id="register-password" name="password" required><br>
-                <label for="verify-password">Verify Password:</label>
-                <input type="password" id="verify-password" name="verify-password" required><br>
-
-
-                <!-- Submit Button -->
-                <button type="submit">Register</button>
-                <button id="toggle-login">Already have an account?</button>
-            </form>
-
-        </div>
-
-        <div id="persistent-user">
-        </div>
-    </section>
-
-</body>
-
-
+    #registration-form,
+    #login-form,
+    #login-form-x {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-direction: column;
+    }
+</style>
 
 <script>
-    // Assuming you have an element with id "registration-form" for the form
+    const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com";
+    // let baseUrl = "http://localhost:3000";
+</script>
+
+<section id="login-reg-section">
+    <div id="registration-form-display">
+
+        <div id="login-form">
+            <div id="login-form-x">
+                <h2>User Login</h2>
+                <ul id="loginErrors">
+                </ul>
+                <input type="text" id="email" placeholder="Email Address">
+                <input type="password" id="password" placeholder="Password">
+            </div>
+            <button id="loginButton">Log In</button>
+            <button id="toggle-registration">Don't have an account?</button>
+
+        </div>
+        <form id="registration-form" style="display:none" action="/auth/passport/register" method="POST">
+            <h2>User Registration</h2>
+            <ul id='registration-errors'>
+            </ul>
+            <!-- First Name -->
+            <label for="firstname">First Name:</label>
+            <input type="text" id="firstname" name="firstname" required>
+
+            <!-- Last Name -->
+            <label for="lastname">Last Name:</label>
+            <input type="text" id="lastname" name="lastname" required>
+
+            <!-- Email -->
+            <label for="email">Email:</label>
+            <input type="email" id="register-email" name="email" required>
+
+            <!-- Password -->
+            <label for="password">Password:</label>
+            <input type="password" id="register-password" name="password" required>
+            <label for="verify-password">Verify Password:</label>
+            <input type="password" id="verify-password" name="verify-password" required>
+
+
+            <!-- Submit Button -->
+            <button type="submit">Register</button>
+            <button id="toggle-login">Already have an account?</button>
+        </form>
+
+    </div>
+    <div style="display: flex; ">
+        <div id="persistent-user">
+        </div>
+        <button id="logoutButton" style="display:none">Logout</button>
+    </div>
+</section>
+<!-- logic for login and registration -->
+<script>
     const registrationForm = document.getElementById("registration-form");
     const loginForm = document.getElementById("login-form");
     const loginFlow = document.getElementById('registration-form-display')
-    let baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com";
-    // let baseUrl = "http://localhost:3000";
     let toggleRegistration = document.getElementById('toggle-registration')
     let toggleLogin = document.getElementById('toggle-login')
     let persistentUser = document.getElementById('persistent-user');
+
     let currentUser = '';
 
     let token = localStorage.getItem('token') ? localStorage.getItem('token') : ""; // Store the token received after successful login
@@ -89,7 +110,10 @@
             let user = await currentCheck.json();
             console.log(user, 'retrieved user')
             loginFlow.style.display = 'none'
-            persistentUser.innerHTML = `<h2> Welcome back, ${user.body.firstname}</h2>`
+            const welcome = document.createElement('h2');
+            welcome.innerHTML = `Welcome back, ${user.body.firstname}`
+            persistentUser.appendChild(welcome);
+            logoutButton.style.display = ""
             currentUser = user.body.id;
             return currentUser
         } else {
@@ -123,7 +147,6 @@
             loginForm.style.display = "none";
             // console.log(res)
             persistentUser.innerHTML = `<h2> Welcome, ${res.user.firstname}</h2>`
-            // commentForm.style.display = "block";
 
         } else {
             // let error = document.createElement("li");
@@ -206,8 +229,11 @@
         registrationForm.style.display === "none" ? registrationForm.style.display = "" : registrationForm.style.display = "none";
         loginForm.style.display !== "none" ? loginForm.style.display = "none" : loginForm.style.display = "";
     })
-
+    const logoutButton = document.getElementById('logoutButton');
+    logoutButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+        localStorage.clear('token');
+        location.reload();
+    });
 
 </script>
-
-</html>
