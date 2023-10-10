@@ -1,5 +1,8 @@
 // import mongoose from "mongoose";
 const mongoose = require('mongoose');
+const Post = require('./post');
+const Comment = require('./comment');
+
 const Schema = mongoose.Schema;
 //will have user creation: need to incorporate passport and oauth
 
@@ -27,6 +30,14 @@ const UserSchema = Schema({
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Posts' }]
 
 }, { timestamps: true });
+
+UserSchema.pre('findOneAndDelete', function (next) {
+    let userId = this.getQuery()._id;
+    Post.deleteMany({ user: userId }).exec();
+    Comment.deleteMany({ user: userId }).exec();
+    next();
+})
+
 
 const User = mongoose.model("Users", UserSchema);
 

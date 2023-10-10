@@ -34,6 +34,7 @@ const CommentSchema = Schema({
     // }
 }, { timestamps: true });
 
+
 const Comment = mongoose.model("Comments", CommentSchema);
 
 module.exports = Comment;
@@ -43,7 +44,7 @@ module.exports = Comment;
 
 //Test Comment for POSTMAN
 const testComment = {
-    "user": "64f8adfef9aaa8334b8e9b63",
-    "postId": "651c60ff0f6d5e659baaa389",
+    "user": "64ecd3b95408311fe618eb57",
+    "postId": "65256a0bfbda42a6bf52a749",
     "text": "Should be associated to post w/ postId"
 }

@@ -1,5 +1,6 @@
 //CRUD stuff will go here
 
+const Comment = require('../../db/models/comment');
 const Post = require('../../db/models/post');
 const User = require('../../db/models/user');
 

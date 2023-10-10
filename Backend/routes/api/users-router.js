@@ -6,6 +6,7 @@ const passport = require('../../config/passport')
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { restoreUser } = require('../../utils/auth');
+const Post = require('../../db/models/post');
 
 
 const router = express.Router()
@@ -55,6 +56,8 @@ router.get('/current', restoreUser, UserCtrl.currentUser)
 router.get('/:id', UserCtrl.getUser);
 router.get('/', UserCtrl.getAllUsers);
 router.put('/:id', UserCtrl.updateUser)
+
+
 
 router.delete("/delete/:id", UserCtrl.deleteUserById)
 

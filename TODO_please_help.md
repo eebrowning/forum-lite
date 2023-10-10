@@ -9,3 +9,5 @@
 - There are currently some test blocks in the forum page of the Squarespace site, seems easy enough to achieve the current wireframe(9/18/23)
 ### Build and test a single post view with comments 
 - The posts need to 'redirect', or more likely re-render the page with the post and its associated comments, as well as a form for posting a new comment
+
+### Admin Email setup for backend stuff(currently on Ethan's personal accounts)

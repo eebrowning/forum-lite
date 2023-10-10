@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Comment = require('./comment');
 const Schema = mongoose.Schema;
 
 const PostSchema = Schema({
@@ -34,18 +35,23 @@ const PostSchema = Schema({
 
 }, { timestamps: true });
 
+PostSchema.pre('findOneAndDelete', function (next) {
+    // console.log('attempting to cascade delete comments...')
+    Comment.deleteMany({ postId: this.getQuery()._id }).exec();
+    next();
+});
+
 const Post = mongoose.model("Posts", PostSchema);
 
 module.exports = Post;
 
 
 
-
 //test object for POSTMAN:
 const testPost = {
-    "user": "64f8adfef9aaa8334b8e9b63",
-    "title": "Associated to user",
-    "body": "This is a post, should be associated to user",
+    "user": "64ecd3b95408311fe618eb57",
+    "title": "Associated to Wendys",
+    "body": "This is a post, should be associated to Wendys",
     "isLiked": true,
     "numLikes": 0,
     "topic": "test"
