@@ -4,8 +4,6 @@ const Post = require('./post');
 const Comment = require('./comment');
 
 const Schema = mongoose.Schema;
-//will have user creation: need to incorporate passport and oauth
-
 
 const UserSchema = Schema({
     password: {//will be hashed or handled with oAuth, will test to prove before deploying
