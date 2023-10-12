@@ -1,122 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
+<style>
+    #posts {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* border: 1px solid red; */
+    }
 
+    .post {
+        border: 1.5px solid whitesmoke;
+        display: flex;
+        flex-direction: row;
+        width: 80vw;
+        justify-content: center;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Post Submission</title>
+    .post-pic {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* border: 1px solid red; */
+        width: 5rem;
+        height: 5rem;
+    }
 
-    <style>
-        #posts {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* border: 1px solid red; */
-        }
+    .profile-pic {
+        border-radius: 50%;
+        background-color: grey;
+        width: 3rem;
+        height: 3rem;
 
-        .post {
-            border: 1.5px solid whitesmoke;
-            display: flex;
-            flex-direction: row;
-            width: 80vw;
-            justify-content: center;
-        }
+    }
 
-        .post-pic {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* border: 1px solid red; */
-            width: 5rem;
-            height: 5rem;
-        }
+    .post-content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
 
-        .profile-pic {
-            border-radius: 50%;
-            background-color: grey;
-            width: 3rem;
-            height: 3rem;
+    .post-extras {
+        display: flex;
+        justify-content: flex-end;
+    }
 
-        }
-
-        .post-content {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .post-extras {
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .post-time {
-            justify-content: flex-end;
-        }
-    </style>
-
-</head>
-
-<body>
-    <div id="loginForm">
-        <input type="text" id="email" placeholder="Email Address">
-        <input type="password" id="password" placeholder="Password">
-        <button id="loginButton">Log In</button>
-        <ul id="loginErrors">
-
-        </ul>
-    </div>
-    <section id="post-section">
-
-
-        <!-- <h1>New Post Submission - ignore atm </h1> -->
-        <form id="post-form" style="display:none" action="/api/posts" method="POST">
-            <!-- User ID (You may handle this on the server side) -->
-            <input type="hidden" name="user" value="555dffdfd9ca3accac55f5dfc2">
-            <!-- Title -->
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required><br>
-
-            <!-- Body -->
-            <label for="body">Body:</label>
-            <textarea id="body" name="body" rows="4" required></textarea><br>
-
-            <!-- Topic : perhaps a set selection of topics? -->
-            <label for="topic">Topic:</label>
-            <input type="text" id="topic" name="topic" required><br>
-
-            <!-- Submit Button -->
-            <button type="submit">Submit Post</button>
-        </form>
-        <button id="toggle-post-form">Post</button>
-        <!-- Here will be topic filters at some point. -->
-        <!-- <select id="topic-selection">
-        <option value="shelter">Shelter</option>
-        <option value="food">Food</option>
-        <option value="transportation">Transportation</option>
-        <option value="work-programs">Work Programs</option>
-    </select> -->
-        <h2> Sample posts to practice styling</h2>
-        <div id="posts"></div>
-    </section>
-</body>
+    .post-time {
+        justify-content: flex-end;
+    }
+</style>
 
 <script>
-    // const baseUrl = "http://localhost:3000"; // Replace with the actual API base URL after backend deployment
-    const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com"
+    const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com";
+    // let baseUrl = "http://localhost:3000";
+</script>
+
+<section id="post-section">
+    <ul id="post-errors">
+    </ul>
+    <form id="post-form" style="display:none" action="/api/posts" method="POST">
+        <!-- <input type="hidden" name="user" value="555dffdfd9ca3accac55f5dfc2"> -->
+        <!-- Title -->
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br>
+
+        <!-- Body -->
+        <label for="body">Body:</label>
+        <textarea id="body" name="body" rows="4" required></textarea><br>
+
+        <!-- Topic : perhaps a set selection of topics? -->
+        <label for="topic">Topic:</label>
+        <input type="text" id="topic" name="topic" required><br>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit Post</button>
+    </form>
+    <button id="toggle-post-form" style="display:none">Post</button>
+    <!-- Here will be topic filters at some point. -->
+    <!-- <select id="topic-selection">
+    <option value="shelter">Shelter</option>
+    <option value="food">Food</option>
+    <option value="transportation">Transportation</option>
+    <option value="work-programs">Work Programs</option>
+</select> -->
+    <h2> Sample posts to practice styling</h2>
+    <div id="posts"></div>
+</section>
+<script>
     const postForm = document.getElementById('post-form');
     const toggleForm = document.getElementById('toggle-post-form');
 
     const postsContainer = document.getElementById("posts");
-    let currentUser = '';
 
-    let token = localStorage.getItem('token') ? localStorage.getItem('token') : ""; // Store the token received after successful login
 
     (async function persistentLogin() {
         token = localStorage.getItem('token') ? localStorage.getItem('token') : 'no Token';
 
-        // console.log('in persistent login', token)
         if (token) {
             let currentCheck = await fetch(`${baseUrl}/auth/passport/`, {
                 method: "GET",
@@ -127,6 +103,7 @@
             let user = await currentCheck.json();
             console.log(user, 'retrieved user')
             currentUser = user.body.id;
+            toggleForm.style.display = ''
             return currentUser
         } else {
             return null
@@ -145,6 +122,8 @@
         let title = document.getElementById('title').value;
         let body = document.getElementById('body').value;
         let post = { user: currentUser, topic, title, body }
+        const errors = document.getElementById("post-errors");
+
         async function postPost() {
             let currentCheck = await fetch(`${baseUrl}/api/posts/`, {
                 method: "POST",
@@ -153,12 +132,28 @@
                 },
                 body: JSON.stringify(post)
             });
+
+            let response = await currentCheck.json();
+            console.log(response, "attempted post")
+            if (response.errors) {
+                const errorData = response;
+                console.error("Registration failed:", errorData.errors);
+                errorData.errors?.forEach(err => {
+                    console.log(err);
+                    const postErr = document.createElement("li");
+                    postErr.innerHTML = err.msg;
+                    errors.appendChild(postErr)
+                })
+
+            }
+            return response;
         }
         if (currentUser) {
             console.log(post)
             console.log(currentUser)
 
-            postPost();
+            await postPost();
+
         } else {
             console.log('Please sign in!')
         }
@@ -190,13 +185,13 @@
     async function fetchAndDisplayPosts() {
         const response = await fetch(`${baseUrl}/api/posts`);
         const rezzy = await response.json();
-        const posts = rezzy.data.posts;
+        const posts = rezzy.data.posts;//consider raising out of block scope to access already-fetched posts
         postsContainer.innerHTML = "";
         console.log(posts)
         posts.forEach(post => {
             const postElement = document.createElement("div");
             postElement.innerHTML = `
-                <div key=${post.id} class='post'>
+                <div key=${post._id} id=${post._id} class='post'>
                     <div class='post-pic'>
                         <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/669dbabb-d4c5-4170-bbe6-1fffd7b4bb09/d1hqao6-65cb92af-df90-4453-883f-9969721d6e40.png/v1/fill/w_894,h_894,q_75,strp/strawhat_sail_flag__by_zerocustom1989.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi82NjlkYmFiYi1kNGM1LTQxNzAtYmJlNi0xZmZmZDdiNGJiMDkvZDFocWFvNi02NWNiOTJhZi1kZjkwLTQ0NTMtODgzZi05OTY5NzIxZDZlNDAucG5nIiwid2lkdGgiOiI8PTg5NCIsImhlaWdodCI6Ijw9ODk0In1dXX0.33xY1VmT061dntiaITL9pHHrzqiU2lhc1TXSkIuj4Wk" alt="" class='profile-pic'>
                     </div>
@@ -214,12 +209,11 @@
     }
     fetchAndDisplayPosts();
 
+    // const loginButton = document.getElementById('loginButton');
     loginButton.addEventListener("click", async (e) => {
         e.preventDefault();
-
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-
         const response = await fetch(`${baseUrl}/auth/passport/login`, {
             method: "POST",
             headers: {
@@ -237,8 +231,7 @@
             token = res.token;
             localStorage.setItem('token', token);
             loginForm.style.display = "none";
-            postForm.style.display = "block";
-            commentForm.style.display = "block";
+            location.reload();
             // fetchAndDisplayPosts();//removed when separated: user's login token will be used 
         } else {
             // let error = document.createElement("li");
@@ -250,7 +243,11 @@
         // }
     });
 
+    // const logoutButton = document.getElementById('logoutButton');
+    logoutButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+        localStorage.clear('token');
+        location.reload();
+    });
 
 </script>
-
-</html>
