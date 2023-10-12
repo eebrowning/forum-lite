@@ -8,4 +8,4 @@ We need to explore means to display changes live without page reloads(can be ill
 - TODO: click the post to either change to post-comment view, or expand comment view and form below(check MVP and wireframes)
 
 **login-register.html** will have the login and registration forms.
-- this is currently dropped into the 'sign up' button's page '/join'
+- this is currently dropped into the 'sign in' button's page '/join'
