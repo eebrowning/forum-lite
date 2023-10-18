@@ -4,8 +4,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const session = require('express-session');
 require('dotenv').config();
 const { SESSION_SECRET, CLIENT_SECRET, CLIENT_ID } = process.env;
-// const { SESSION_SECRET, CLIENT_SECRET, CLIENT_ID } = require('../../config/keys');
-
 
 
 const router = express.Router()
@@ -26,9 +24,6 @@ passport.use(new GoogleStrategy({
     scope: ['profile', 'email'],
 },
     (accessToken, refreshToken, profile, done) => {
-        // console.log('XXXXXXXXXXXXXXXXXXX')
-        // console.log('XXXXXXXXXXXXXXXXXXX')
-        // console.log('done', profile)
 
         console.log('XXXXXXXXXXXXXXXXXXX')
         console.log('XXXXXXXXXXXXXXXXXXX')
@@ -39,24 +34,35 @@ passport.use(new GoogleStrategy({
         return done(null, profile);
     }
 ));
-router.get('/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] })
+router.get('/',
+    passport.authenticate('google', { scope: ['profile', 'email'] }),
+    (req, res) => {
+        if (req.isAuthenticated()) {
+            console.log('successful auth')
+        } else {
+            console.log('unsuccessful auth')
+
+        }
+    }
 );
 
-router.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
+router.get('/callback',
+    passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         // Successful authentication, redirect to the desired route or perform other actions.
+        // not sure how to employ this yet.
         res.redirect('/');
     }
 );
-// app.get('/user',
-//     passport.authenticate('google', { scope: ['profile', 'email'] }),
-//     (req, res) => {
-//         console.log('profile')
-//     }
 
-// );
+router.get('/user',
+    passport.authenticate('google', { scope: ['profile', 'email'] }),
+
+    (req, res) => {
+        console.log('profile')
+    }
+
+);
 
 passport.serializeUser((user, done) => {
     // Serialize the user data and store it in the session.

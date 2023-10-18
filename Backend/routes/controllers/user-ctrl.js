@@ -2,9 +2,6 @@ const User = require('../../db/models/user');
 const bcrypt = require('bcryptjs');
 const [SECRET] = require('../../config/keys');
 const jwt = require('jsonwebtoken');
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const Post = require('../../db/models/post');
-const { default: test } = require('node:test');
 
 
 loginUser = (req, res) => {
