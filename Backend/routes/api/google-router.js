@@ -31,6 +31,10 @@ passport.use(new GoogleStrategy({
         console.log('Google ID', profile.id)
         console.log('TOKEN', accessToken)
 
+        //TODO: google login implementation
+        //could hijack info here to either sign in existing user matching googleID or create a profile with info from the google profile.
+        //problem is, password would need to be hashed still: could I use googleID as a password?
+
         return done(null, profile);
     }
 ));
@@ -50,8 +54,9 @@ router.get('/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
         // Successful authentication, redirect to the desired route or perform other actions.
-        // not sure how to employ this yet.
+        // not sure how to employ this yet
         res.redirect('/');
+
     }
 );
 
