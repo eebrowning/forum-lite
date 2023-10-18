@@ -2,6 +2,8 @@
 
 ## USERS: ./auth
 #### ./auth/google : sends users through google auth -- **TODO**
+- Uncertain if another user category should be used, or if current user model can be used, but hijacking googleId as the password, which will still be hashed in the database, but 'provided' by google at login.
+- this should be fairly safe, but I'm open to better options
 
 ### ./auth/passport : sends users through passport authentication
 - **POST /auth/passport/register** will register new users
