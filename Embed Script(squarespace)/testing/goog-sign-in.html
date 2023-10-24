@@ -56,34 +56,6 @@
     <body>
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-        <!-- <div class="forum-container">
-            <h1 class="forum-header">Forum</h1>
-
-            <div id='posts'>
-                <div class="forum-post">
-                    <div class="forum-post-author">User123</div>
-                    <div class="forum-post-content">This is just an embed test. I'm not sure how we will be storing the
-                        comments</div>
-                    <div class="forum-post-date">Posted on July 17, 2023</div>
-                </div>
-
-                <div class="forum-post">
-                    <div class="forum-post-author">User456</div>
-                    <div class="forum-post-content">These are dummy comments.</div>
-                    <div class="forum-post-date">Posted on July 18, 2023</div>
-                </div>
-            </div>
-            <form id="forum-form">
-                <label for="author">Name:</label>
-                <input type="text" id="author" name="author" required><br>
-
-                <label for="content">Post:</label><br>
-                <textarea id="content" name="content" required></textarea><br>
-
-                <input type="submit" value="Submit">
-            </form>
-        </div> -->
-
         <script>
             function onSignIn(googleUser) {
                 var profile = googleUser.getBasicProfile();
@@ -95,33 +67,6 @@
             }
         </script>
 
-        <script>
-            // Handle form submission to add new posts
-            document.getElementById("forum-form").addEventListener("submit", function (e) {
-                e.preventDefault(); // Prevent form submission
-
-                // Get input values
-                var author = document.getElementById("author").value;
-                var content = document.getElementById("content").value;
-
-                // Create new post HTML
-                var newPost = document.createElement("div");
-                newPost.className = "forum-post";
-                newPost.innerHTML = `
-            <div class="forum-post-author">${author}</div>
-            <div class="forum-post-content">${content}</div>
-            <div class="forum-post-date">Posted on ${new Date().toLocaleDateString()}</div>
-          `;
-
-                // Append the new post to the forum container
-                var forumPosts = document.querySelector("#posts");
-                forumPosts.appendChild(newPost);
-
-                // Clear form inputs
-                document.getElementById("author").value = "";
-                document.getElementById("content").value = "";
-            });
-        </script>
     </body>
 
     </html>
@@ -153,5 +98,4 @@
             console.error('Error fetching user info:', error);
         });
     }
-    fetchUserInfo(101518615856371771990)
 </script>

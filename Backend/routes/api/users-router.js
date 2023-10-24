@@ -46,7 +46,6 @@ const validateLogin = [//pass as middleware with the correct fields
 
 
 
-//TODO middleware for cascade delete: Users needs it, and posts needs it
 
 router.post('/login', validateLogin, UserCtrl.loginUser)
 router.post('/register', validateUser, UserCtrl.createUser)

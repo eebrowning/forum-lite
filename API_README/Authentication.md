@@ -2,8 +2,8 @@
 
 ## USERS: ./auth
 #### ./auth/google : sends users through google auth -- **TODO**
-- Uncertain if another user category should be used, or if current user model can be used, but hijacking googleId as the password, which will still be hashed in the database, but 'provided' by google at login.
-- this should be fairly safe, but I'm open to better options
+- OKAY: will be using the same user table: passwords now not 'required'(but will be within validation for classic email login). 
+- TODO: figure out CORS-safe way of implementing login. Right now the endpoint is being blocked by google's CORS policy when being requested through 
 
 ### ./auth/passport : sends users through passport authentication
 - **POST /auth/passport/register** will register new users
