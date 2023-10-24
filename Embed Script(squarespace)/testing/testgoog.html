@@ -1,0 +1,51 @@
+<head>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id"
+        content="557284935003-4tkdhgn1kdqogabge31pr1a38iblqn4j.apps.googleusercontent.com">
+</head>
+<style>
+    #google-login-section {
+        border-radius: .5rem;
+        border: 1px solid #538975;
+    }
+
+    #google-login-section button {
+        border-radius: .3rem;
+        border: 1px solid #538975;
+        color: #538975;
+        background-color: transparent;
+    }
+
+    #login-reg-section button:hover {
+        border-radius: .3rem;
+        border: 1px solid #538975;
+        color: white;
+        background-color: rgba(83, 137, 117, .75);
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    // const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com";
+    let baseUrl = "http://localhost:3000";
+</script>
+
+<section id="google-login-section">
+
+    <button id="google-login">Google</button>
+
+</section>
+<!-- logic for login and registration -->
+<script>
+
+    const googleLogin = document.getElementById('google-login');
+    googleLogin.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        await fetch(baseUrl + "/auth/google/", {
+            method: "GET",
+        })
+
+    })
+
+</script>
