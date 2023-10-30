@@ -1,7 +1,10 @@
 ## POSTS
 - **GET /api/posts** will return a list of posts (may narrow down in the API by topic if fetching content gets silly)
 - **POST /api/posts/** will submit new post
+- **GET /api/posts/:id** will retrieve post with :id
+
 - **DELETE /api/posts/:id** will delete post with :id
+
 - TODO: PUT logic
 
 

@@ -91,7 +91,7 @@ getPosts = async (req, res) => {//read all posts
 }
 
 getPostById = async (req, res) => {//read post by an id 
-
+    // console.log(req.params.id, 'req params')
     let post = await Post.findOne({ _id: req.params.id }).populate('comments');
     console.log(post, 'post')
 

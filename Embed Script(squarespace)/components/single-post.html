@@ -1,0 +1,107 @@
+<style>
+    /* Your existing CSS styles here */
+
+    /* Additional styles for single-post view */
+    .comments {
+        margin-top: 20px;
+    }
+
+    .comment-form {
+        display: flex;
+        flex-direction: column;
+        width: 80vw;
+    }
+
+    .comment-input {
+        margin: 5px 0;
+    }
+
+    .comment-list {
+        margin-top: 10px;
+    }
+
+    .comment {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin: 10px 0;
+    }
+</style>
+<script>
+    const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com";
+    // let baseUrl = "http://localhost:3000";
+</script>
+<!-- Your existing JavaScript code -->
+
+<section id="single-post-section">
+    <div id="single-post">
+
+        <div class='post'>
+        </div>
+
+    </div>
+
+    <div class="comments">
+        <h3>Comments</h3>
+        <form class="comment-form">
+            <label for="comment">Add a Comment:</label>
+            <textarea id="comment" class="comment-input" rows="4" required></textarea>
+            <button type="submit">Submit Comment</button>
+        </form>
+        <div id="comment-list">
+        </div>
+
+    </div>
+    </div>
+</section>
+
+<script>
+    // Your existing JavaScript code
+
+    // JavaScript code to display the single post and comments
+    async function fetchSinglePostAndComments(postId) {
+        const postResponse = await fetch(`${baseUrl}/api/posts/${postId}`);
+        const post = await postResponse.json();
+        const singlePost = document.getElementById("single-post");
+        singlePost.innerHTML = `
+            <div class='post'>
+                <div class='post-pic'>
+                    <img src="profile-pic-url" alt="" class='profile-pic'>
+                </div>
+                <div class='post-content'>
+                    <h3 class='post-title'>${post.title}</h3>
+                    <p class='post-body'>${post.body}</p>
+                    <div class='post-extras'>
+                        <p class='post-time'>${timeAgo(post.createdAt)}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const commentsResponse = await fetch(`${baseUrl}/api/comments/${postId}`);
+        const comments = await commentsResponse.json();
+        const commentList = document.querySelector(".comment-list");
+        commentList.innerHTML = "";
+
+        comments.forEach(comment => {
+            const commentElement = document.createElement("div");
+            commentElement.classList.add('comment');
+            commentElement.innerHTML = `
+                <p class='comment-text'>${comment.text}</p>
+                <p class='comment-time'>${timeAgo(comment.createdAt)}</p>
+            `;
+            commentList.appendChild(commentElement);
+        });
+    }
+
+    // Add an event listener to your form to submit comments
+    const commentForm = document.querySelector(".comment-form");
+    commentForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const commentText = document.getElementById('comment').value;
+        // Use fetch or your preferred method to submit the comment to the server
+        // After submission, you can refresh the comment list or append the new comment to it
+    });
+
+    // Call the fetchSinglePostAndComments function with the desired postId
+    // fetchSinglePostAndComments(postId);
+</script>
