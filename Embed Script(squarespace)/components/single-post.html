@@ -1,107 +1,169 @@
-<style>
-    /* Your existing CSS styles here */
+<head>
 
-    /* Additional styles for single-post view */
-    .comments {
-        margin-top: 20px;
-    }
+</head>
 
-    .comment-form {
-        display: flex;
-        flex-direction: column;
-        width: 80vw;
-    }
+<body>
+    <style>
+        .post-pic img {
+            height: 50px;
+            width: 50px;
+        }
 
-    .comment-input {
-        margin: 5px 0;
-    }
+        .comments {
+            margin-top: 20px;
+        }
 
-    .comment-list {
-        margin-top: 10px;
-    }
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            width: 80vw;
+        }
 
-    .comment {
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin: 10px 0;
-    }
-</style>
-<script>
-    const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com";
-    // let baseUrl = "http://localhost:3000";
-</script>
-<!-- Your existing JavaScript code -->
+        .comment-input {
+            margin: 5px 0;
+        }
 
-<section id="single-post-section">
-    <div id="single-post">
+        .comment-list {
+            margin-top: 10px;
+        }
 
-        <div class='post'>
-        </div>
+        .comment {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+    <script>
+        const baseUrl = "https://philly-outreach-67a8895e1869.herokuapp.com";
+        // let baseUrl = "http://localhost:3000";
+        // const postId = "64f9ec861978e103f5217aa1";
+        const postId = localStorage.getItem('clickedPostId') || 'undefined';
+        //this postId is dependent on a click listener being added to just-posts where we store the post's id field in localstorage:
+        /*  IN ALL POSTS VIEW
+             posts.forEach(post => {
+            const postElement = document.createElement("div");
+            postElement.innerHTML = `
+                <div key=${post._id} id=${post._id} class='post'>
+                    <div class='post-pic'>
+                        <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/669dbabb-d4c5-4170-bbe6-1fffd7b4bb09/d1hqao6-65cb92af-df90-4453-883f-9969721d6e40.png/v1/fill/w_894,h_894,q_75,strp/strawhat_sail_flag__by_zerocustom1989.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi82NjlkYmFiYi1kNGM1LTQxNzAtYmJlNi0xZmZmZDdiNGJiMDkvZDFocWFvNi02NWNiOTJhZi1kZjkwLTQ0NTMtODgzZi05OTY5NzIxZDZlNDAucG5nIiwid2lkdGgiOiI8PTg5NCIsImhlaWdodCI6Ijw9ODk0In1dXX0.33xY1VmT061dntiaITL9pHHrzqiU2lhc1TXSkIuj4Wk" alt="" class='profile-pic'>
+                    </div>
+                    <div class='post-content'>
+                        <h3 class='post-title'>${post.title}</h3>
+                        <p class='post-body'>${post.body}</p>
+                        <div class='post-extras'>
+                            <p class='post-time'>${timeAgo(post.createdAt)}</p>
+                        </div>
+                    </div>
+                </div >
+            `;
+            postElement.addEventListener('click', () => {
+                // Store the clicked post's id in localStorage
+                localStorage.setItem('clickedPostId', post._id);
+                // Redirect to the single post view or perform any other actions
+                // You can use window.location.href = 'single-post.html' for example
+            });
+            postsContainer.appendChild(postElement);
+        });
+        */
+    </script>
+    <!-- Your existing JavaScript code -->
 
-    </div>
-
-    <div class="comments">
-        <h3>Comments</h3>
-        <form class="comment-form">
-            <label for="comment">Add a Comment:</label>
-            <textarea id="comment" class="comment-input" rows="4" required></textarea>
-            <button type="submit">Submit Comment</button>
-        </form>
-        <div id="comment-list">
-        </div>
-
-    </div>
-    </div>
-</section>
-
-<script>
-    // Your existing JavaScript code
-
-    // JavaScript code to display the single post and comments
-    async function fetchSinglePostAndComments(postId) {
-        const postResponse = await fetch(`${baseUrl}/api/posts/${postId}`);
-        const post = await postResponse.json();
-        const singlePost = document.getElementById("single-post");
-        singlePost.innerHTML = `
+    <section id="single-post-section">
+        <div id="single-post">
+            post shows here
             <div class='post'>
-                <div class='post-pic'>
-                    <img src="profile-pic-url" alt="" class='profile-pic'>
-                </div>
-                <div class='post-content'>
-                    <h3 class='post-title'>${post.title}</h3>
-                    <p class='post-body'>${post.body}</p>
-                    <div class='post-extras'>
-                        <p class='post-time'>${timeAgo(post.createdAt)}</p>
+            </div>
+
+        </div>
+
+        <div class="comments">
+            <h3>Comments</h3>
+            <form class="comment-form">
+                <label for="comment">Add a Comment:</label>
+                <textarea id="comment" class="comment-input" rows="4" required></textarea>
+                <button type="submit">Submit Comment</button>
+            </form>
+            <div id="comment-list">
+            </div>
+
+        </div>
+        </div>
+    </section>
+
+    <script>
+        // Your existing JavaScript code
+
+        // JavaScript code to display the single post and comments
+        async function fetchSinglePostAndComments(postId) {
+            const res = await fetch(`${baseUrl}/api/posts/${postId}`);
+            let post = await res.json();
+            post = post.data;
+            console.log(post, 'poster boy')
+            const singlePost = document.getElementById("single-post");
+            singlePost.innerHTML = `
+                <div class='post'>
+                    <div class='post-pic'>
+                        <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/669dbabb-d4c5-4170-bbe6-1fffd7b4bb09/d1hqao6-65cb92af-df90-4453-883f-9969721d6e40.png/v1/fill/w_894,h_894,q_75,strp/strawhat_sail_flag__by_zerocustom1989.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl0sIm9iaiI6W1t7InBhdGgiOiIvZi82NjlkYmFiYi1kNGM1LTQxNzAtYmJlNi0xZmZmZDdiNGJiMDkvZDFocWFvNi02NWNiOTJhZi1kZjkwLTQ0NTMtODgzZi05OTY5NzIxZDZlNDAucG5nIiwid2lkdGgiOiI8PTg5NCIsImhlaWdodCI6Ijw9ODk0In1dXX0.33xY1VmT061dntiaITL9pHHrzqiU2lhc1TXSkIuj4Wk" alt="" class='profile-pic'>
+                    </div>
+                    <div class='post-content'>
+                        <h3 class='post-title'>${post.title}</h3>
+                        <p class='post-body'>${post.body}</p>
+                        <div class='post-extras'>
+                            <p class='post-time'>${timeAgo(post.createdAt)}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
-
-        const commentsResponse = await fetch(`${baseUrl}/api/comments/${postId}`);
-        const comments = await commentsResponse.json();
-        const commentList = document.querySelector(".comment-list");
-        commentList.innerHTML = "";
-
-        comments.forEach(comment => {
-            const commentElement = document.createElement("div");
-            commentElement.classList.add('comment');
-            commentElement.innerHTML = `
-                <p class='comment-text'>${comment.text}</p>
-                <p class='comment-time'>${timeAgo(comment.createdAt)}</p>
             `;
-            commentList.appendChild(commentElement);
+
+            const commentsResponse = await fetch(`${baseUrl}/api/comments/${postId}`);
+            const comments = await commentsResponse.json();
+            const commentList = document.querySelector(".comment-list");
+            commentList.innerHTML = "";
+
+            comments.forEach(comment => {
+                const commentElement = document.createElement("div");
+                commentElement.classList.add('comment');
+                commentElement.innerHTML = `
+                    <p class='comment-text'>${comment.text}</p>
+                    <p class='comment-time'>${timeAgo(comment.createdAt)}</p>
+                `;
+                commentList.appendChild(commentElement);
+            });
+        }
+        function timeAgo(timestamp) {
+            const currentTime = new Date();
+            const pastTime = new Date(timestamp);
+
+            const timeDifference = currentTime - pastTime;
+
+            const hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
+
+            if (hoursAgo < 24) {
+                if (hoursAgo === 0) {
+                    return "Less than an hour ago";
+                } else if (hoursAgo === 1) {
+                    return "1 hour ago";
+                } else {
+                    return `${hoursAgo} hours ago`;
+                }
+            } else {
+                // Format as "mm/dd/yy"
+                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                return pastTime.toLocaleDateString(undefined, options);
+            }
+        }
+
+        // Add an event listener to your form to submit comments
+        const commentForm = document.querySelector(".comment-form");
+        commentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const commentText = document.getElementById('comment').value;
+            // Use fetch or your preferred method to submit the comment to the server
+            // After submission, you can refresh the comment list or append the new comment to it
         });
-    }
 
-    // Add an event listener to your form to submit comments
-    const commentForm = document.querySelector(".comment-form");
-    commentForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const commentText = document.getElementById('comment').value;
-        // Use fetch or your preferred method to submit the comment to the server
-        // After submission, you can refresh the comment list or append the new comment to it
-    });
+        // Call the fetchSinglePostAndComments function with the desired postId
+        fetchSinglePostAndComments(postId);
+    </script>
 
-    // Call the fetchSinglePostAndComments function with the desired postId
-    // fetchSinglePostAndComments(postId);
-</script>
+</body>

@@ -80,7 +80,6 @@
     <option value="transportation">Transportation</option>
     <option value="work-programs">Work Programs</option>
 </select> -->
-    <h2> Sample posts to practice styling</h2>
     <div id="posts"></div>
 </section>
 <script>
@@ -204,6 +203,12 @@
                     </div>
                 </div >
             `;
+            postElement.addEventListener('click', () => {
+                // Store the clicked post's id in localStorage
+                localStorage.setItem('clickedPostId', post._id);
+                // Redirect to the single post view or perform any other actions
+                // You can use window.location.href = 'single-post.html' for example
+            });
             postsContainer.appendChild(postElement);
         });
     }
