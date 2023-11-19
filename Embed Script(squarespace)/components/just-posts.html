@@ -93,7 +93,7 @@
         token = localStorage.getItem('token') ? localStorage.getItem('token') : 'no Token';
 
         if (token) {
-            let currentCheck = await fetch(`${baseUrl}/auth/passport/`, {
+            let currentCheck = await fetch(`${baseUrl}/auth/passport/current`, {
                 method: "GET",
                 headers: {
                     "Authorization": `${token}`

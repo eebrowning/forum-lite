@@ -175,7 +175,7 @@
 
             console.log('in persistent login', token)
             if (token && token !== 'no Token') {
-                let currentCheck = await fetch(`${baseUrl}/auth/passport/`, {
+                let currentCheck = await fetch(`${baseUrl}/auth/passport/current`, {
                     method: "GET",
                     headers: {
                         "Authorization": `${token}`
@@ -198,10 +198,8 @@
 
         loginButton.addEventListener("click", async (e) => {
             e.preventDefault();
-
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-
             const response = await fetch(`${baseUrl}/auth/passport/login`, {
                 method: "POST",
                 headers: {
