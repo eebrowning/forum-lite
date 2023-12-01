@@ -36,7 +36,7 @@ router.get('/:id', PostCtrl.getPostById)
 
 router.delete('/:id', PostCtrl.deletePostById)
 
-// router.put('/:id', PostCtrl.createPost)//edit can be done later
+router.put('/:id', PostCtrl.createPost)//edit can be done later
 
 
 
