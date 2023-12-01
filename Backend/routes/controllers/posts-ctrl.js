@@ -195,5 +195,6 @@ module.exports = {
     createPost,
     getPostById,
     getPosts,
-    deletePostById
+    deletePostById,
+    editPostById
 }
