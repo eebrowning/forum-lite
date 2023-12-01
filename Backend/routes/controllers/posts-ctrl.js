@@ -140,6 +140,57 @@ deletePostById = async (req, res) => {//delete
 // editpostbyId = () => {//update
 // }
 
+editPostById = async (req, res) => {//Edit the post
+    let edit = await Post.findOne({ _id: req.params.id }).populate('comments');
+    console.log(edit, 'post')
+    //try {
+    //    //let userObjectId=edit.user;
+    //    // related to populate logic
+    //    //await User.findByIdAndUpdate(userObjectId, { $pull: { posts: edit._id } })
+    //    res.status(200).json({
+    //        success: true,
+    //        data: edit
+    //    })
+    //} catch (err) {
+    //    res.status(500).json({
+    //        success: false,
+    //        message: err
+    //    })
+    //}
+    edit.save()
+        .then(async (editPost) => {
+            // Edit post's to the existing user's 'posts' array
+            try {
+                let userObjectId = edit.user;
+                //related to .populate()
+                await User.findByIdAndUpdate(userObjectId, { $pull: { posts: editPost._id } })
+                // pushing the edited post .populate()
+                await User.findByIdAndUpdate(userObjectId, { $push: { posts: editPost._id } })
+                    .then(() => {
+                        return res.status(201).json({
+                            success: true,
+                            id: editPost._id,
+                            data: editPost,
+                            message: 'Post Edited!',
+                        });
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        return res.status(500).json({
+                            success: false,
+                            error: 'Failed to Edit user with the new post reference.',
+                        });
+                    })
+            }
+            catch (err) {
+                 res.status(500).json({
+                 success: false,
+                 message: err
+                })
+            }
+        })
+}
+
 module.exports = {
     createPost,
     getPostById,
