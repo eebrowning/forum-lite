@@ -120,7 +120,7 @@ deletePostById = async (req, res) => {//delete
 
         let userObjectId = deleted.user;
         //related to .populate() logic
-        await User.findByIdAndUpdate(userObjectId, { $pull: { posts: deleted._id } })
+        //await User.findByIdAndUpdate(userObjectId, { $pull: { posts: deleted._id } })
         await Post.findOneAndDelete({ _id: req.params.id })
 
         res.status(200).json({
