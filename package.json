@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/eebrowning/forum-lite/issues"
   },
-  "homepage": "https://github.com/eebrowning/forum-lite#readme"
+  "homepage": "https://github.com/eebrowning/forum-lite#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }

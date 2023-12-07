@@ -120,7 +120,7 @@ deletePostById = async (req, res) => {//delete
 
         let userObjectId = deleted.user;
         //related to .populate() logic
-        await User.findByIdAndUpdate(userObjectId, { $pull: { posts: deleted._id } })
+        //await User.findByIdAndUpdate(userObjectId, { $pull: { posts: deleted._id } })
         await Post.findOneAndDelete({ _id: req.params.id })
 
         res.status(200).json({
@@ -163,7 +163,7 @@ editPostById = async (req, res) => {//Edit the post
             try {
                 let userObjectId = edit.user;
                 //related to .populate()
-                await User.findByIdAndUpdate(userObjectId, { $pull: { posts: editPost._id } })
+                //await User.findByIdAndUpdate(userObjectId, { $pull: { posts: editPost._id } })
                 // pushing the edited post .populate()
                 await User.findByIdAndUpdate(userObjectId, { $push: { posts: editPost._id } })
                     .then(() => {
