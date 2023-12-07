@@ -3,8 +3,8 @@
 const Comment = require('../../db/models/comment');
 const Post = require('../../db/models/post');
 const User = require('../../db/models/user');
-const deleted = require('../../db/models/deletePostById');
-const edit = require('../../db/models/editPostById');
+// const deleted = require('../../db/models/deletePostById');
+// const edit = require('../../db/models/editPostById');
 
 createPost = (req, res) => {//create
     const body = req.body;
