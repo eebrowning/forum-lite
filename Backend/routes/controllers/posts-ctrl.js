@@ -3,7 +3,8 @@
 const Comment = require('../../db/models/comment');
 const Post = require('../../db/models/post');
 const User = require('../../db/models/user');
-
+const deleted = require('../../db/models/deletePostById');
+const edit = require('../../db/models/editPostById');
 
 createPost = (req, res) => {//create
     const body = req.body;
@@ -114,7 +115,7 @@ getPostById = async (req, res) => {//read post by an id
 deletePostById = async (req, res) => {//delete
 
     let deleted = await Post.findOne({ _id: req.params.id })
-
+    
 
     try {
 
