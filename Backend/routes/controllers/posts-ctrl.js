@@ -164,7 +164,7 @@ editPostById = async (req, res) => {//Edit the post
             try {
                 let userObjectId = edit.user;
                 //related to .populate()
-                //await User.findByIdAndUpdate(userObjectId, { $pull: { posts: editPost._id } })
+                await User.findByIdAndUpdate(userObjectId, { $pull: { posts: editPost._id } })
                 // pushing the edited post .populate()
                 await User.findByIdAndUpdate(userObjectId, { $push: { posts: editPost._id } })
                     .then(() => {
